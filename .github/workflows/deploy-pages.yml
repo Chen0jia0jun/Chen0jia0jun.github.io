@@ -3,13 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
+      pages: read
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -43,8 +44,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      pages: write
+      pages: read
       id-token: write
     steps:
+      - name: Download artifact
+        uses: actions/download-pages-artifact@v3
+        with:
+          path: ./dist
+
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
