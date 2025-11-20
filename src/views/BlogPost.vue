@@ -18,7 +18,7 @@
         
         <div class="post-meta">
           <div class="post-info">
-            <span class="post-date">{{ formatDate(post.date) }}</span>
+            <span class="post-date">{{ formatDate(post.createdAt || post.date) }}</span>
             <span class="post-separator">•</span>
             <span class="post-reading-time">{{ getReadingTime(post.content) }}</span>
           </div>
@@ -149,7 +149,7 @@ export default {
     })
     
     const post = computed(() => {
-      return blogStore.getPostBySlug(route.params.slug)
+      return blogStore.getPostById(route.params.id)
     })
     
     const renderedContent = computed(() => {
@@ -259,7 +259,7 @@ export default {
       loadPost()
     })
     
-    watch(() => route.params.slug, () => {
+    watch(() => route.params.id, () => {
       loadPost()
     })
     

@@ -162,14 +162,14 @@
           v-for="post in paginatedPosts"
           :key="post.id"
           class="post-card card"
-          @click="$router.push(`/blog/${post.slug}`)"
+          @click="$router.push(`/blog/${post.id}`)"
         >
           <div class="post-content">
             <h2 class="post-title">{{ post.title }}</h2>
             <p class="post-excerpt">{{ post.excerpt }}</p>
             <div class="post-meta">
               <div class="post-info">
-                <span class="post-date">{{ formatDate(post.date) }}</span>
+                <span class="post-date">{{ formatDate(post.createdAt || post.date) }}</span>
                 <span class="post-separator">•</span>
                 <span class="post-reading-time">{{ getReadingTime(post.content) }}</span>
               </div>
