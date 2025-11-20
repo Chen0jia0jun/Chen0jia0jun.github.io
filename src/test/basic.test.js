@@ -45,7 +45,7 @@ describe('Photo Store', () => {
     setActivePinia(pinia)
   })
 
-  it('should start with empty photos array', () => {
+  it('should start with empty photos array', async () => {
     const { usePhotoStore } = await import('@/store/photos')
     const store = usePhotoStore()
     
@@ -76,7 +76,7 @@ describe('Blog Store', () => {
     setActivePinia(pinia)
   })
 
-  it('should start with sample post', () => {
+  it('should start with sample post', async () => {
     const { useBlogStore } = await import('@/store/blog')
     const store = useBlogStore()
     
