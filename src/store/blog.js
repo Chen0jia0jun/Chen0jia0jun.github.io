@@ -6,7 +6,6 @@ export const useBlogStore = defineStore('blog', {
       {
         id: '1',
         title: '欢迎来到我的博客',
-        slug: 'welcome-to-my-blog',
         content: `# 欢迎来到我的博客
 `,
         excerpt: '这是我的第一篇博客文章，介绍这个网站的功能和技术栈。',
@@ -26,11 +25,16 @@ export const useBlogStore = defineStore('blog', {
     },
     
     postsByDate: (state) => {
-      return [...state.publishedPosts].sort((a, b) => new Date(b.date) - new Date(a.date))
+      return [...state.publishedPosts].sort((a, b) => {
+        const aTime = a.updatedAt || a.createdAt || a.date || ''
+        const bTime = b.updatedAt || b.createdAt || b.date || ''
+        return new Date(bTime) - new Date(aTime)
+      })
     },
-    
-    getPostBySlug: (state) => (slug) => {
-      return state.posts.find(post => post.slug === slug)
+
+    getPostById: (state) => (id) => {
+      if (!id) return null
+      return state.posts.find(post => post.id === id)
     },
     
     postsCount: (state) => state.publishedPosts.length,
@@ -38,7 +42,8 @@ export const useBlogStore = defineStore('blog', {
     allTags: (state) => {
       const tags = new Set()
       state.posts.forEach(post => {
-        post.tags.forEach(tag => tags.add(tag))
+        const t = Array.isArray(post.tags) ? post.tags : []
+        t.forEach(tag => tags.add(tag))
       })
       return Array.from(tags)
     },
@@ -50,12 +55,9 @@ export const useBlogStore = defineStore('blog', {
   
   actions: {
     async addPost(postData) {
-      const slug = this.generateSlug(postData.title)
-      
       const newPost = {
         id: Date.now().toString(),
         title: postData.title,
-        slug,
         content: postData.content,
         excerpt: postData.excerpt || this.generateExcerpt(postData.content),
         date: postData.date || new Date().toISOString().split('T')[0],
@@ -64,7 +66,7 @@ export const useBlogStore = defineStore('blog', {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       }
-      
+
       this.posts.unshift(newPost)
       this.saveToLocalStorage()
       return newPost
@@ -89,14 +91,7 @@ export const useBlogStore = defineStore('blog', {
       }
     },
     
-    generateSlug(title) {
-      return title
-        .toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/[\s_-]+/g, '-')
-        .replace(/^-+|-+$/g, '')
-    },
+    // generateSlug 已移除；不再使用 slug 字段
     
     generateExcerpt(content, length = 150) {
       // 移除Markdown标记，提取纯文本
@@ -138,8 +133,29 @@ export const useBlogStore = defineStore('blog', {
       }
     },
     
-    initBlog() {
+    async initBlog() {
+      // 先加载 localStorage（保留用户创建的本地文章）
       this.loadFromLocalStorage()
+
+      try {
+        this.isLoading = true
+        const res = await fetch('/posts_index.json')
+        if (res.ok) {
+          const postsFromFile = await res.json()
+          const normalized = postsFromFile.map(p => ({
+            ...p,
+            excerpt: p.excerpt || this.generateExcerpt(p.content || ''),
+            tags: Array.isArray(p.tags) ? p.tags : (p.tags ? [p.tags] : ['未分类'])
+          }))
+
+          const examplePost = this.posts.length > 0 ? this.posts[0] : null
+          this.posts = examplePost ? [examplePost, ...normalized] : normalized
+        }
+      } catch (err) {
+        console.error('加载 posts_index.json 失败:', err)
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 })

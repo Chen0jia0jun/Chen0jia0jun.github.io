@@ -31,7 +31,7 @@ const routes = [
     }
   },
   {
-    path: '/blog/:slug',
+    path: '/blog/:id',
     name: 'BlogPost',
     component: BlogPost,
     meta: {

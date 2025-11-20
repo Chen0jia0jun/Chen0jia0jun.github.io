@@ -83,12 +83,12 @@
             v-for="post in recentPosts.slice(0, 3)"
             :key="post.id"
             class="post-card card"
-            @click="$router.push(`/blog/${post.slug}`)"
+            @click="$router.push(`/blog/${post.id}`)"
           >
             <h3 class="post-title">{{ post.title }}</h3>
             <p class="post-excerpt">{{ post.excerpt }}</p>
             <div class="post-meta">
-              <span class="post-date">{{ formatDate(post.date) }}</span>
+              <span class="post-date">{{ formatDate(post.createdAt || post.date) }}</span>
               <div class="post-tags">
                 <span
                   v-for="tag in post.tags"

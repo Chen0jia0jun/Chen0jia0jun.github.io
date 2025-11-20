@@ -52,13 +52,13 @@ ${photos.map(photo => `cp /path/to/your/photo ${photo.id}.jpg`).join('\n')}
     
     // 创建文章目录结构
     posts.forEach(post => {
-      const fileName = `${post.id}-${post.slug}.md`
+      const fileName = `${post.id}.md`
       const content = `# ${post.title}
 
 ---
 **发布日期**: ${post.date}
-**标签**: ${post.tags.join(', ')}
-**摘要**: ${post.excerpt}
+**标签**: ${post.tags ? post.tags.join(', ') : ''}
+**摘要**: ${post.excerpt || ''}
 
 ---
 
