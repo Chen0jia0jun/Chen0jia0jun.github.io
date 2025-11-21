@@ -29,22 +29,16 @@ jobs:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: package-lock.json
-      # - name: Clean cache (fix npm optional dependencies bug)
-      #   run: |
-      #     if [ -f package-lock.json ]; then
-      #       rm package-lock.json
-      #     fi
-      #     if [ -d node_modules ]; then
-      #       rm -rf node_modules
-      #     fi
-      - name: Clear npm cache
+      - name: Clean cache (fix npm optional dependencies bug)
         run: |
-          rm -rf ~/.npm
-          npm cache clean --force
-          
+          if [ -f package-lock.json ]; then
+            rm package-lock.json
+          fi
+          if [ -d node_modules ]; then
+            rm -rf node_modules
+          fi
       - name: Install dependencies
-        run: |
-          npm install --no-fund --no-audit --progress=false
+        run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Generate posts index
         run: npm run generate:posts
