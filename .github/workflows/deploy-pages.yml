@@ -31,14 +31,11 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Clean cache (fix npm optional dependencies bug)
         run: |
-          if [ -f package-lock.json ]; then
-            rm package-lock.json
-          fi
           if [ -d node_modules ]; then
             rm -rf node_modules
           fi
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit --progress=false
+        run: npm ci --no-audit --progress=false
 
       - name: Generate posts index
         run: npm run generate:posts
