@@ -37,11 +37,14 @@ jobs:
       #     if [ -d node_modules ]; then
       #       rm -rf node_modules
       #     fi
-
+      - name: Clear npm cache
+        run: |
+          rm -rf ~/.npm
+          npm cache clean --force
+          
       - name: Install dependencies
         run: |
-          rm -rf node_modules
-          npm install --prefer-offline --no-audit --progress=false
+          npm install --no-fund --no-audit --progress=false
 
       - name: Generate posts index
         run: npm run generate:posts
