@@ -29,13 +29,10 @@ jobs:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: package-lock.json
-      - name: Clean cache (fix npm optional dependencies bug)
-        run: |
-          if [ -d node_modules ]; then
-            rm -rf node_modules
-          fi
       - name: Install dependencies
-        run: npm install --prefer-offline --no-audit --progress=false
+        run: |
+          npm ci --no-audit --progress=false
+          npm install @rollup/rollup-linux-x64-gnu
 
       - name: Generate posts index
         run: npm run generate:posts
