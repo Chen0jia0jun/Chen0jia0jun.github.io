@@ -39,7 +39,9 @@ jobs:
       #     fi
 
       - name: Install dependencies
-        run:  npm install --prefer-offline --no-audit --progress=false
+        run: |
+          rm -rf node_modules
+          npm install --prefer-offline --no-audit --progress=false
 
       - name: Generate posts index
         run: npm run generate:posts
