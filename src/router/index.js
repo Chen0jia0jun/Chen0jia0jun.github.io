@@ -62,7 +62,7 @@ const router = createRouter({
 
 // 设置页面标题
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title ? `${to.meta.title} - 我的个人网站` : '我的个人网站'
+  document.title = to.meta.title ? `${to.meta.title} - Cisphus_World` : 'Welcome to Cisphus_World'
   next()
 })
 

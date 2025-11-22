@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>页面未找到 — 重定向中…</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script>
+      // GitHub Pages will serve this 404.html for unknown paths.
+      // We redirect to index.html and pass the original path in ?p=encodedPath
+      (function () {
+        try {
+          var path = location.pathname + location.search + location.hash;
+          var base = '%BASE_URL%';
+          var target = base + 'index.html?p=' + encodeURIComponent(path);
+          location.replace(target);
+        } catch (e) {
+          // fallback to site root
+          location.replace('%BASE_URL%');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>页面未找到，正在重定向到主页…</p>
+    <p>If your browser doesn't redirect, <a id="go" href="%BASE_URL%">click here</a>.</p>
+    <script>
+      document.getElementById('go').setAttribute('href', '%BASE_URL%');
+    </script>
+  </body>
+</html>

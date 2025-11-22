@@ -37,11 +37,15 @@ paths-ignore:
 
 ## 缓存机制
 
-缓存需要让系统关注：缓存什么、何时缓存。
+缓存需要让系统关注：**缓存什么、何时缓存**。
 
-本次实践使用的方法是用官方预设好的key，大概如下：`npm-${{ hashFiles('package-lock.json') }}-${{ matrix.node-version }}` 意思是下载对应node版本的包，依据`package-lock.json`来下载，若`package-lock.json`没变，则不重新下载了。若有`yarn.lock`或者其他复杂的情况，则不能使用官方预设了，则许哟自己去设置key。[依赖项缓存参考 - GitHub 文档](https://docs.github.com/zh/actions/reference/workflows-and-actions/dependency-caching)
+本次实践使用的方法是用官方预设好的key，大概如下：`npm-${{ hashFiles('package-lock.json') }}-${{ matrix.node-version }}` 意思是下载对应node版本的包，依据`package-lock.json`来下载，若`package-lock.json`没变，则不重新下载了。若有`yarn.lock`或者其他复杂的情况，则不能使用官方预设了，则许哟自己去设置key。
 
-将npm下载下的node_modules缓存到服务器中，在下次构建的时候就可以直接从服务器获取，而不是重新联网下载node_modules，`--prefer-offline` 则是优先从服务器获取，`--no-audit` 不对下载的包进行审计，加快下载速度，`--progress=false` 则是隐藏细节。
+官方同时还预设了缓存默认缓存 `node_modules` 目录（或 npm 缓存目录），`cache-dependency-path` 的作用是告诉 Action：「以这个文件的哈希值作为 `key` 的一部分」，确保文件不变时复用缓存。
+
+[依赖项缓存参考 - GitHub 文档](https://docs.github.com/zh/actions/reference/workflows-and-actions/dependency-caching)
+
+将npm下载下的node_modules缓存到服务器中，在下次构建的时候就可以直接从服务器获取，而不是重新联网下载node_modules，`--prefer-offline` 则是优先从本地获取（包括服务器），`--no-audit` 不对下载的包进行审计，加快下载速度，`--progress=false` 则是隐藏细节。
 
 ```
 steps:
@@ -54,6 +58,28 @@ steps:
           cache-dependency-path: package-lock.json
       - name: Install dependencies
         run: npm install --prefer-offline --no-audit --progress=false
+```
+
+而因为npm存在会忽略可选包的下载问题，因此不得不在每次构建的时候都删除所有node_module重新构建，因为不重新下载就会存在缺失。
+
+**补充：**取消了删除所有包的操作，而是只下载缺少的包。
+
+修改部分如下
+
+```
+steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --progress=false
+          npm install @rollup/rollup-linux-x64-gnu
 ```
 
 
@@ -140,3 +166,5 @@ jobs:
 [GitHub Actions 快速入门 - GitHub 文档](https://docs.github.com/zh/actions/get-started/quickstart)
 
 [GitHub Actions 缓存教程-CSDN博客](https://blog.csdn.net/gitblog_00133/article/details/141153931)
+
+[Automating a software company with GitHub Actions - PostHog](https://posthog.com/blog/automating-a-software-company-with-github-actions)

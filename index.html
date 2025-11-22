@@ -2,15 +2,30 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="%BASE_URL%favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>我的个人网站</title>
+    <title>Cisphus_World</title>
     <meta name="description" content="我的个人网站 - 照片画廊和博客" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
+    <script>
+      // If redirected from GitHub Pages 404, restore the original path encoded in ?p=
+      (function () {
+        try {
+          var params = new URLSearchParams(location.search);
+          var p = params.get('p');
+          if (p) {
+            var original = decodeURIComponent(p);
+            history.replaceState({}, '', original);
+          }
+        } catch (e) {
+          // ignore
+        }
+      })();
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
