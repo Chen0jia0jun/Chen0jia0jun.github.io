@@ -209,19 +209,6 @@ export const useBlogStore = defineStore('blog', {
         : plainText
     },
     
-    loadFromLocalStorage() {
-      try {
-        const saved = localStorage.getItem('blogPosts')
-        if (saved) {
-          const savedPosts = JSON.parse(saved)
-          // 保留示例文章，只添加本地保存的文章
-          const examplePost = this.posts[0]
-          this.posts = [examplePost, ...savedPosts.filter(p => p.id !== '1')]
-        }
-      } catch (error) {
-        console.error('加载博客数据失败:', error)
-      }
-    },
     
     saveToLocalStorage() {
       try {
@@ -234,8 +221,6 @@ export const useBlogStore = defineStore('blog', {
     },
     
     async initBlog() {
-      // 先加载 localStorage（保留用户创建的本地文章）
-      this.loadFromLocalStorage()
 
       try {
         this.isLoading = true
@@ -243,15 +228,7 @@ export const useBlogStore = defineStore('blog', {
         // 直接从 markdown 文件加载
         const postsFromFiles = this.loadMarkdownFiles()
 
-        // 合并文件加载的文章和本地文章
-        // 保留示例文章（id='1'）和本地存储的文章
-        const examplePost = this.posts.find(p => p.id === '1')
-        const localPosts = this.posts.filter(p => p.id !== '1' && !p.isFromFile)
-
-        // 合并所有文章，示例文章在第一位，然后是本地文章，最后是文件文章
         this.posts = [
-          ...(examplePost ? [examplePost] : []),
-          ...localPosts,
           ...postsFromFiles
         ]
 
