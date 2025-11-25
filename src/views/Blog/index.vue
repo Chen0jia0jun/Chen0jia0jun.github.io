@@ -439,18 +439,18 @@ export default {
 }
 
 .search-box {
-  max-width: 300px;
+  max-width: 400px;
   width: 100%;
 }
 
 .search-input {
   width: 100%;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-2);
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .search-input:focus {
@@ -471,7 +471,8 @@ export default {
   border-radius: var(--radius-2);
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 15px;
+  min-height: 40px;
 }
 
 /* Tag Filters */
@@ -483,15 +484,19 @@ export default {
 }
 
 .tag-filter {
-  padding: var(--spacing-3) var(--spacing-5);
+  padding: var(--spacing-3) var(--spacing-6);
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   border-radius: var(--radius-2);
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 15px;
   white-space: nowrap;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tag-filter:hover,
@@ -563,7 +568,7 @@ export default {
   align-items: center;
   gap: var(--spacing-2);
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .post-separator {
@@ -583,11 +588,15 @@ export default {
 .post-tag {
   background-color: var(--primary-100);
   color: var(--primary-600);
-  padding: var(--spacing-1) var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-2);
-  font-size: 12px;
+  font-size: 13px;
   border: 1px solid var(--primary-200);
   white-space: nowrap;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Empty State */
@@ -623,14 +632,15 @@ export default {
 }
 
 .page-btn {
-  padding: var(--spacing-3) var(--spacing-5);
+  padding: var(--spacing-3) var(--spacing-6);
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-primary);
   border-radius: var(--radius-2);
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 15px;
+  min-height: 40px;
 }
 
 .page-btn:hover:not(:disabled) {
@@ -648,8 +658,8 @@ export default {
 }
 
 .page-number {
-  width: 40px;
-  height: 40px;
+  min-width: 42px;
+  height: 42px;
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-primary);
@@ -659,7 +669,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .page-number:hover,

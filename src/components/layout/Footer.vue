@@ -1,44 +1,63 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>关于我</h3>
-          <p class="footer-description">
-            欢迎来到我的个人网站！这里是我分享照片、记录思考和展示作品的地方。
-          </p>
-        </div>
-        
-        <div class="footer-section">
-          <h3>快速链接</h3>
-          <nav class="footer-nav">
-            <router-link to="/" class="footer-link">首页</router-link>
-            <router-link to="/gallery" class="footer-link">照片画廊</router-link>
-            <router-link to="/blog" class="footer-link">博客</router-link>
-            <router-link to="/tests" class="footer-link">实验室</router-link>
-          </nav>
-        </div>
-        
-        <div class="footer-section">
-          <h3>技术栈</h3>
-          <div class="tech-stack">
-            <span class="tech-item">Vue.js 3</span>
-            <span class="tech-item">Vite</span>
-            <span class="tech-item">Pinia</span>
-            <span class="tech-item">Markdown</span>
-          </div>
+      <!-- 技术栈 -->
+      <div class="footer-section tech-section">
+        <h3>技术栈</h3>
+        <div class="tech-grid">
+          <a
+            v-for="tech in techStack"
+            :key="tech.name"
+            :href="tech.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tech-card"
+            :title="tech.description"
+          >
+            <div class="tech-logo">
+              <img :src="tech.logo" :alt="tech.name" />
+            </div>
+            <span class="tech-name">{{ tech.name }}</span>
+          </a>
         </div>
       </div>
-      
+
+      <!-- 友情链接 -->
+      <div class="footer-section friends-section">
+        <h3>友情链接</h3>
+        <div class="friends-grid">
+          <a
+            v-for="link in friendLinks"
+            :key="link.name"
+            :href="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="friend-link"
+          >
+            <div class="friend-avatar">
+              <img :src="link.avatar" :alt="link.name" />
+            </div>
+            <div class="friend-info">
+              <span class="friend-name">{{ link.name }}</span>
+              <span class="friend-desc">{{ link.description }}</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+
+      <!-- 底部信息 -->
       <div class="footer-bottom">
         <div class="footer-bottom-content">
           <p class="copyright">
-            © {{ currentYear }} 我的个人网站. 用 ❤️ 构建
+            © 2003-{{ currentYear }} Cisphus World.
           </p>
           <div class="footer-stats">
             <span class="stat-item">{{ photoStore.photosCount }} 张照片</span>
             <span class="stat-separator">•</span>
             <span class="stat-item">{{ blogStore.postsCount }} 篇文章</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">运行 {{ siteRuntime.days }} 天 {{ siteRuntime.hours }} 时</span>
           </div>
         </div>
       </div>
@@ -47,7 +66,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
 
@@ -56,13 +75,99 @@ export default {
   setup() {
     const photoStore = usePhotoStore()
     const blogStore = useBlogStore()
-    
+
     const currentYear = computed(() => new Date().getFullYear())
-    
+
+    // 网站创建时间
+    const siteStartDate = new Date('2025-11-19 21:05:00')
+
+    const siteRuntime = ref({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    })
+
+    let runtimeTimer = null
+
+    const updateRuntime = () => {
+      const now = new Date()
+      const diff = now - siteStartDate
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+      siteRuntime.value = { days, hours, minutes, seconds }
+    }
+
+    onMounted(() => {
+      updateRuntime()
+      runtimeTimer = setInterval(updateRuntime, 60000) // 每分钟更新一次
+    })
+
+    onUnmounted(() => {
+      if (runtimeTimer) {
+        clearInterval(runtimeTimer)
+      }
+    })
+
+    const techStack = [
+      {
+        name: 'Vue.js',
+        description: '渐进式 JavaScript 框架',
+        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vuedotjs.svg',
+        link: 'https://cn.vuejs.org/'
+      },
+      {
+        name: 'Vite',
+        description: '下一代前端构建工具',
+        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vite.svg',
+        link: 'https://cn.vitejs.dev/'
+      },
+      {
+        name: 'Pinia',
+        description: 'Vue 状态管理库',
+        logo: 'https://pinia.vuejs.org/logo.svg',
+        link: 'https://pinia.vuejs.org/zh/'
+      },
+      {
+        name: 'Router',
+        description: 'Vue.js 官方路由',
+        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vuedotjs.svg',
+        link: 'https://router.vuejs.org/zh/'
+      },
+      {
+        name: 'JavaScript',
+        description: '现代 Web 开发语言',
+        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/javascript.svg',
+        link: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
+      },
+      {
+        name: 'Vitest',
+        description: '快速的单元测试框架',
+        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vitest.svg',
+        link: 'https://cn.vitest.dev/'
+      }
+    ]
+
+    const friendLinks = [
+      {
+        name: '示例博客 1',
+        description: '技术博客',
+        avatar: 'https://via.placeholder.com/60',
+        url: 'https://example.com'
+      },
+    ]
+
     return {
       photoStore,
       blogStore,
-      currentYear
+      currentYear,
+      siteRuntime,
+      techStack,
+      friendLinks
     }
   }
 }
@@ -76,61 +181,182 @@ export default {
   padding: var(--spacing-16) 0 var(--spacing-8);
 }
 
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-8);
+/* 技术栈区域 */
+.tech-section {
   margin-bottom: var(--spacing-12);
 }
 
-.footer-section h3 {
+.tech-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+}
+
+.tech-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.tech-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.tech-card:hover {
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tech-logo {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* 移除灰度滤镜，确保在暗色主题下清晰可见 */
+}
+
+.tech-name {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.tech-card:hover .tech-name {
+  color: var(--primary-500);
+}
+
+/* 友情链接区域 */
+.friends-section {
+  margin-bottom: var(--spacing-12);
+}
+
+.friends-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+}
+
+.friends-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-4);
+  max-width: 100%;
+}
+
+.friend-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 280px;
+  max-width: 100%;
+}
+
+.friend-link:hover {
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.friend-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-default);
+  transition: transform 0.3s ease;
+}
+
+.friend-link:hover .friend-avatar {
+  transform: rotate(360deg);
+  border-color: var(--primary-500);
+}
+
+.friend-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friend-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.friend-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 快速链接区域 */
+.links-section {
+  margin-bottom: var(--spacing-12);
+}
+
+.links-section h3 {
   font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--spacing-4);
-}
-
-.footer-description {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 0;
+  text-align: center;
 }
 
 .footer-nav {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2);
-}
-
-.footer-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: var(--spacing-1) 0;
-}
-
-.footer-link:hover {
-  color: var(--primary-500);
-}
-
-.tech-stack {
-  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: var(--spacing-2);
+  gap: var(--spacing-4);
 }
 
-.tech-item {
-  background-color: var(--bg-page);
-  color: var(--text-secondary);
-  padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-2);
-  font-size: 14px;
-  border: 1px solid var(--border-default);
-}
 
+/* 底部信息 */
 .footer-bottom {
   border-top: 1px solid var(--border-default);
-  padding-top: var(--spacing-8);
+  padding-top: var(--spacing-6);
+  margin-top: var(--spacing-8);
 }
 
 .footer-bottom-content {
@@ -152,7 +378,7 @@ export default {
   align-items: center;
   gap: var(--spacing-2);
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .stat-separator {
@@ -164,21 +390,52 @@ export default {
   .footer {
     padding: var(--spacing-12) 0 var(--spacing-6);
   }
-  
-  .footer-content {
-    gap: var(--spacing-6);
+
+  .tech-grid {
+    gap: var(--spacing-3);
   }
-  
+
+  .friends-grid {
+    justify-content: center;
+  }
+
+  .friend-link {
+    width: 100%;
+  }
+
+  .footer-nav {
+    gap: var(--spacing-2);
+  }
+
   .footer-bottom-content {
     flex-direction: column;
     text-align: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-3);
+  }
+
+  .footer-stats {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .tech-stack {
-    justify-content: center;
+  .tech-section h3,
+  .friends-section h3,
+  .links-section h3 {
+    font-size: 16px;
+  }
+
+  .tech-card {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  .tech-name {
+    font-size: 13px;
+  }
+
+  .footer-stats {
+    font-size: 12px;
   }
 }
 </style>

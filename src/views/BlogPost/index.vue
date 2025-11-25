@@ -274,14 +274,14 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-3) var(--spacing-5);
+  padding: var(--spacing-3) var(--spacing-6);
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   border-radius: var(--radius-2);
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .back-btn:hover {
@@ -319,7 +319,7 @@ export default {
   align-items: center;
   gap: var(--spacing-2);
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .post-separator {
@@ -340,12 +340,16 @@ export default {
 .post-tag {
   background-color: var(--primary-100);
   color: var(--primary-600);
-  padding: var(--spacing-1) var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-2);
-  font-size: 14px;
+  font-size: 15px;
   border: 1px solid var(--primary-200);
   text-decoration: none;
   transition: all 0.2s ease;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .post-tag:hover {
@@ -526,7 +530,7 @@ export default {
 }
 
 .post-sharing h3 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--spacing-4);
@@ -541,14 +545,14 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   border-radius: var(--radius-2);
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .share-btn:hover {

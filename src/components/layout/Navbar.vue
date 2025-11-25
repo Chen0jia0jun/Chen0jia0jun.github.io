@@ -3,6 +3,23 @@
     <div class="container navbar-container">
       <!-- Logo -->
       <router-link to="/" class="navbar-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="url(#gradient1)" opacity="0.2"/>
+            <circle cx="20" cy="20" r="12" fill="url(#gradient2)"/>
+            <path d="M20 8 L26 20 L20 32 L14 20 Z" fill="white" opacity="0.9"/>
+            <defs>
+              <linearGradient id="gradient1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" style="stop-color:var(--primary-400);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:var(--primary-600);stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="gradient2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" style="stop-color:var(--primary-500);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:var(--primary-700);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <span class="logo-text">Cisphus</span>
       </router-link>
 
@@ -153,15 +170,41 @@ export default {
 }
 
 .navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
   font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .navbar-logo:hover {
   color: var(--primary-500);
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover .logo-icon {
+  transform: rotate(180deg) scale(1.1);
+}
+
+.logo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .desktop-nav {
@@ -283,21 +326,31 @@ export default {
   .desktop-nav {
     display: none;
   }
-  
+
   .mobile-menu-toggle {
     display: flex;
   }
-  
+
   .navbar-container {
     padding: 0 var(--spacing-4);
   }
-  
+
   .navbar {
     height: 56px;
   }
-  
+
   .mobile-nav {
     top: 56px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+    gap: var(--spacing-2);
   }
 }
 </style>
