@@ -12,107 +12,6 @@
         </div>
       </div>
 
-      <!-- Create Post Button -->
-      <div class="create-post-section" v-if="showCreateButton">
-        <button @click="toggleCreateForm" class="btn btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          写新文章
-        </button>
-      </div>
-
-      <!-- Create Post Form -->
-      <div v-if="showCreateForm" class="create-form-section">
-        <div class="card">
-          <h2>写新文章</h2>
-          <form @submit.prevent="createPost" class="create-form">
-            <div class="form-group">
-              <label for="title">标题 *</label>
-              <input
-                id="title"
-                v-model="newPost.title"
-                type="text"
-                placeholder="输入文章标题"
-                required
-              />
-            </div>
-            
-            <div class="form-group">
-              <label for="excerpt">摘要</label>
-              <textarea
-                id="excerpt"
-                v-model="newPost.excerpt"
-                placeholder="输入文章摘要（可选）"
-                rows="3"
-              />
-            </div>
-            
-            <div class="form-group">
-              <label for="tags">标签</label>
-              <input
-                id="tags"
-                v-model="tagsInput"
-                type="text"
-                placeholder="输入标签，用逗号分隔"
-              />
-              <p class="form-hint">例如：技术, Vue.js, 前端开发</p>
-            </div>
-            
-            <div class="form-group">
-              <label for="date">发布日期</label>
-              <input
-                id="date"
-                v-model="newPost.date"
-                type="date"
-              />
-            </div>
-            
-            <div class="form-group">
-              <label for="content">内容（Markdown格式）*</label>
-              <textarea
-                id="content"
-                v-model="newPost.content"
-                placeholder="使用 Markdown 格式编写文章..."
-                rows="15"
-                required
-              />
-              <div class="markdown-help">
-                <p>支持 Markdown 语法：</p>
-                <div class="help-links">
-                  <a href="https://markdown.com.cn/basic-syntax/" target="_blank" rel="noopener">
-                    基本语法
-                  </a>
-                  <a href="https://www.markdownguide.org/extended-syntax/" target="_blank" rel="noopener">
-                    扩展语法
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="checkbox-label">
-                <input
-                  type="checkbox"
-                  v-model="newPost.published"
-                />
-                <span>立即发布</span>
-              </label>
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" @click="toggleCreateForm" class="btn btn-secondary">
-                取消
-              </button>
-              <button type="submit" :disabled="!isFormValid" class="btn btn-primary">
-                {{ newPost.published ? '发布文章' : '保存草稿' }}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
       <!-- Filters and Search -->
       <div class="blog-controls" v-if="blogStore.postsCount > 0">
         <div class="controls-left">
@@ -197,13 +96,6 @@
           <p>
             {{ searchQuery || selectedTag ? '试试调整搜索条件或标签筛选' : '开始写你的第一篇文章吧！' }}
           </p>
-          <button 
-            v-if="!searchQuery && !selectedTag" 
-            @click="toggleCreateForm" 
-            class="btn btn-primary"
-          >
-            写新文章
-          </button>
         </div>
       </div>
 
@@ -347,15 +239,6 @@ export default {
       return newPost.value.title.trim() && newPost.value.content.trim()
     })
     
-    // Methods
-    const toggleCreateForm = () => {
-      showCreateForm.value = !showCreateForm.value
-      showCreateButton.value = !showCreateForm.value
-      if (!showCreateForm.value) {
-        resetForm()
-      }
-    }
-    
     const resetForm = () => {
       newPost.value = {
         title: '',
@@ -368,35 +251,6 @@ export default {
       tagsInput.value = ''
     }
     
-    const createPost = async () => {
-      try {
-        // Parse tags
-        const tags = tagsInput.value
-          .split(',')
-          .map(tag => tag.trim())
-          .filter(tag => tag.length > 0)
-        
-        const postData = {
-          ...newPost.value,
-          tags,
-          excerpt: newPost.value.excerpt || blogStore.generateExcerpt(newPost.value.content)
-        }
-        
-        await blogStore.addPost(postData)
-        
-        // Reset form and hide
-        resetForm()
-        showCreateForm.value = false
-        showCreateButton.value = true
-        
-        // Scroll to top
-        document.querySelector('.blog').scrollIntoView({ behavior: 'smooth' })
-        
-      } catch (error) {
-        console.error('创建文章失败:', error)
-        alert('创建文章失败，请重试')
-      }
-    }
     
     const setTagFilter = (tag) => {
       selectedTag.value = tag
@@ -448,8 +302,6 @@ export default {
       totalPages,
       visiblePages,
       isFormValid,
-      toggleCreateForm,
-      createPost,
       setTagFilter,
       changePage,
       formatDate,

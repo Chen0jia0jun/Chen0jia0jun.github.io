@@ -4,10 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "generate:posts": "node scripts/generatePosts.js",
-    "predev": "npm run generate:posts",
     "dev": "vite",
-    "prebuild": "npm run generate:posts",
     "build": "vite build",
     "build:github": "vite build --mode github-pages",
     "preview": "vite preview",
@@ -15,7 +12,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "export-data": "node src/utils/dataMigration.js",
-    "setup:github": "node scripts/setupGitHub.js"
+    "setup:github": "node scripts/setupGitHub.js",
+    "generate:posts": "node scripts/generatePosts.js"
   },
   "dependencies": {
     "vue": "^3.4.0",

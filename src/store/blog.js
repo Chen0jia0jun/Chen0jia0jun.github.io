@@ -1,9 +1,5 @@
-import { defineStore } from 'pinia'
-
-export const useBlogStore = defineStore('blog', {
-  state: () => ({
-    posts: [
-      {
+/*
+数据格式：
         id: '1',
         title: '欢迎来到我的博客',
         content: `# 欢迎来到我的博客
@@ -14,8 +10,16 @@ export const useBlogStore = defineStore('blog', {
         published: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-      }
-    ],
+*/
+
+import { defineStore } from 'pinia'
+
+// 动态导入所有 markdown 文件
+const mdFiles = import.meta.glob('/src/assets/posts/**/*.md', { query: '?raw', import: 'default', eager: true })
+
+export const useBlogStore = defineStore('blog', {
+  state: () => ({
+    posts: [],
     isLoading: false
   }),
   
@@ -54,6 +58,102 @@ export const useBlogStore = defineStore('blog', {
   },
   
   actions: {
+    /**
+     * 从文件路径提取分类标签
+     * 例如: /src/assets/posts/Algorithm/STL学习.md -> ['Algorithm']
+     * 例如: /src/assets/posts/test_blog.md -> ['未分类']
+     */
+    extractTagsFromPath(filePath) {
+      // 提取相对路径，兼容 Windows 和 Unix 路径
+      const relativePath = filePath.replace(/^.*src\/assets\/posts[\\/]/, '')
+      // 统一使用 / 作为分隔符
+      const normalizedPath = relativePath.replace(/\\/g, '/')
+      const pathParts = normalizedPath.split('/')
+
+      // 如果只有一个部分，说明在根目录
+      if (pathParts.length === 1) {
+        return ['未分类']
+      }
+
+      // 第一个部分是分类文件夹名
+      return [pathParts[0]]
+    },
+
+    /**
+     * 从 markdown 内容提取标题
+     */
+    extractTitleFromContent(content, filePath) {
+      const lines = content.split('\n')
+      for (const line of lines) {
+        const trimmed = line.trim()
+        if (trimmed.startsWith('# ')) {
+          return trimmed.replace(/^#\s+/, '').trim()
+        }
+        if (trimmed.length > 0) {
+          // 如果第一个非空行不是标题，尝试从文件名提取
+          const match = filePath.match(/([^/\\]+)\.md$/)
+          if (match) {
+            return match[1].replace(/[~_]/g, ' ')
+          }
+          break
+        }
+      }
+      return '无标题'
+    },
+
+    /**
+     * 加载 markdown 文件
+     */
+    loadMarkdownFiles() {
+      const posts = []
+
+      for (const [filePath, content] of Object.entries(mdFiles)) {
+        try {
+          const tags = this.extractTagsFromPath(filePath)
+          const title = this.extractTitleFromContent(content, filePath)
+
+          // 生成唯一 ID (基于文件路径的哈希)
+          const id = this.generateIdFromPath(filePath)
+
+          // 提取日期 (可以后续添加日期支持)
+          const date = new Date().toISOString().split('T')[0]
+
+          posts.push({
+            id,
+            title,
+            content,
+            excerpt: this.generateExcerpt(content),
+            date,
+            tags,
+            published: true,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            isFromFile: true // 标记来自文件
+          })
+        } catch (error) {
+          console.error(`处理文件 ${filePath} 时出错:`, error)
+        }
+      }
+
+      return posts
+    },
+
+    /**
+     * 基于文件路径生成唯一 ID
+     */
+    generateIdFromPath(filePath) {
+      // 提取相对路径并创建哈希，兼容 Windows 和 Unix 路径
+      const relativePath = filePath.replace(/^.*src\/assets\/posts[\\/]/, '')
+      const normalizedPath = relativePath.replace(/\\/g, '/')
+      let hash = 0
+      for (let i = 0; i < normalizedPath.length; i++) {
+        const char = normalizedPath.charCodeAt(i)
+        hash = ((hash << 5) - hash) + char
+        hash = hash & hash // 转换为 32 位整数
+      }
+      return Math.abs(hash).toString(36)
+    },
+
     async addPost(postData) {
       const newPost = {
         id: Date.now().toString(),
@@ -109,19 +209,6 @@ export const useBlogStore = defineStore('blog', {
         : plainText
     },
     
-    loadFromLocalStorage() {
-      try {
-        const saved = localStorage.getItem('blogPosts')
-        if (saved) {
-          const savedPosts = JSON.parse(saved)
-          // 保留示例文章，只添加本地保存的文章
-          const examplePost = this.posts[0]
-          this.posts = [examplePost, ...savedPosts.filter(p => p.id !== '1')]
-        }
-      } catch (error) {
-        console.error('加载博客数据失败:', error)
-      }
-    },
     
     saveToLocalStorage() {
       try {
@@ -134,25 +221,20 @@ export const useBlogStore = defineStore('blog', {
     },
     
     async initBlog() {
-      // 先加载 localStorage（保留用户创建的本地文章）
-      this.loadFromLocalStorage()
 
       try {
         this.isLoading = true
-        const res = await fetch('/posts_index.json')
-        if (res.ok) {
-          const postsFromFile = await res.json()
-          const normalized = postsFromFile.map(p => ({
-            ...p,
-            excerpt: p.excerpt || this.generateExcerpt(p.content || ''),
-            tags: Array.isArray(p.tags) ? p.tags : (p.tags ? [p.tags] : ['未分类'])
-          }))
 
-          const examplePost = this.posts.length > 0 ? this.posts[0] : null
-          this.posts = examplePost ? [examplePost, ...normalized] : normalized
-        }
+        // 直接从 markdown 文件加载
+        const postsFromFiles = this.loadMarkdownFiles()
+
+        this.posts = [
+          ...postsFromFiles
+        ]
+
+        console.log(`已加载 ${postsFromFiles.length} 篇文章`)
       } catch (err) {
-        console.error('加载 posts_index.json 失败:', err)
+        console.error('加载 markdown 文件失败:', err)
       } finally {
         this.isLoading = false
       }

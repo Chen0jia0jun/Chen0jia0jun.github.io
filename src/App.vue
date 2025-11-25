@@ -20,8 +20,8 @@ import { onMounted } from 'vue'
 import { useThemeStore } from '@/store/theme'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
-import Navbar from '@/components/Navbar.vue'
-import Footer from '@/components/Footer.vue'
+import Navbar from '@/components/layout/Navbar.vue'
+import Footer from '@/components/layout/Footer.vue'
 
 export default {
   name: 'App',

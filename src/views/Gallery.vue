@@ -179,7 +179,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { usePhotoStore } from '@/store/photos'
-import PhotoModal from '@/components/PhotoModal.vue'
+import PhotoModal from '@/components/layout/PhotoModal.vue'
 
 export default {
   name: 'Gallery',
