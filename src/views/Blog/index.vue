@@ -133,9 +133,10 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, onMounted } from 'vue'
+<script >
+import { ref, computed } from 'vue'
 import { useBlogStore } from '@/store/blog'
+import { formatDate, getReadingTime, paginatePosts, calculateVisiblePages } from './helpers'
 
 export default {
   name: 'Blog',
@@ -204,36 +205,9 @@ export default {
     
     const totalPages = computed(() => Math.ceil(filteredPosts.value.length / postsPerPage))
     
-    const paginatedPosts = computed(() => {
-      const start = (currentPage.value - 1) * postsPerPage
-      const end = start + postsPerPage
-      return filteredPosts.value.slice(start, end)
-    })
+    const paginatedPosts = computed(() => paginatePosts(filteredPosts.value, currentPage.value, postsPerPage))
     
-    const visiblePages = computed(() => {
-      const pages = []
-      const total = totalPages.value
-      const current = currentPage.value
-      const delta = 2
-      
-      // Always show first page
-      pages.push(1)
-      
-      // Show pages around current page
-      for (let i = current - delta; i <= current + delta; i++) {
-        if (i > 1 && i < total) {
-          pages.push(i)
-        }
-      }
-      
-      // Always show last page
-      if (total > 1) {
-        pages.push(total)
-      }
-      
-      // Remove duplicates and sort
-      return [...new Set(pages)].sort((a, b) => a - b)
-    })
+    const visiblePages = computed(() => calculateVisiblePages(totalPages.value, currentPage.value, 2))
     
     const isFormValid = computed(() => {
       return newPost.value.title.trim() && newPost.value.content.trim()
@@ -264,24 +238,6 @@ export default {
         document.querySelector('.blog').scrollIntoView({ behavior: 'smooth' })
       }
     }
-    
-    const formatDate = (dateString) => {
-      const date = new Date(dateString)
-      return date.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    }
-    
-    const getReadingTime = (content) => {
-      const wordsPerMinute = 200
-      const textLength = content.replace(/[#*`]/g, '').length
-      const readingTime = Math.ceil(textLength / wordsPerMinute)
-      return `${readingTime} 分钟阅读`
-    }
-    
-    // Watchers
     // Reset pagination when filters change
     const resetPagination = () => {
       currentPage.value = 1
@@ -306,6 +262,7 @@ export default {
       changePage,
       formatDate,
       getReadingTime,
+      resetForm,
       resetPagination
     }
   },
