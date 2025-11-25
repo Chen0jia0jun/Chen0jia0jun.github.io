@@ -2,22 +2,13 @@
   <div class="home">
     <!-- Hero Section -->
     <section class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1 class="hero-title fade-in">欢迎来到我的世界</h1>
-          <p class="hero-subtitle fade-in">
-            这里是我分享照片、记录思考和展示创作的空间。
-            每一张照片都有它的故事，每一篇文章都承载着我的思考。
-          </p>
-          <div class="hero-actions fade-in">
-            <router-link to="/gallery" class="btn btn-primary">
-              浏览照片
-            </router-link>
-            <router-link to="/blog" class="btn btn-secondary">
-              阅读博客
-            </router-link>
-          </div>
-        </div>
+      <div class="hero-content">
+        <h1 class="hero-title">Cisphus</h1>
+      </div>
+      <div class="scroll-indicator" @click="scrollToContent">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
       </div>
     </section>
 
@@ -103,67 +94,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Features -->
-    <section class="features">
-      <div class="container">
-        <div class="section-header">
-          <h2>网站功能</h2>
-        </div>
-        <div class="features-grid">
-          <div class="feature-item card">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="9" cy="9" r="2"/>
-                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-              </svg>
-            </div>
-            <h3>照片画廊</h3>
-            <p>精美的瀑布流布局展示照片，支持分类和标签管理</p>
-          </div>
-          
-          <div class="feature-item card">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 6h16M4 12h16M4 18h7"/>
-              </svg>
-            </div>
-            <h3>博客系统</h3>
-            <p>支持Markdown格式编写文章，语法高亮，优雅排版</p>
-          </div>
-          
-          <div class="feature-item card">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/>
-                <line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/>
-                <line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-            </div>
-            <h3>主题切换</h3>
-            <p>支持深色和浅色主题，适应不同使用习惯</p>
-          </div>
-          
-          <div class="feature-item card">
-            <div class="feature-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 11H5a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2l3 3V8l-3 3z"/>
-                <path d="M17 9a6 6 0 0 0-12 0c0 2.5 1.5 4.6 3.7 5.7L9 21h8l1.3-6.3c2.3-1.1 3.7-3.2 3.7-5.7"/>
-              </svg>
-            </div>
-            <h3>响应式设计</h3>
-            <p>完美适配各种设备，从手机到桌面都有优秀体验</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
@@ -190,12 +120,20 @@ export default {
       })
     }
 
+    const scrollToContent = () => {
+      const statsSection = document.querySelector('.stats')
+      if (statsSection) {
+        statsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+
     return {
       photoStore,
       blogStore,
       recentPhotos,
       recentPosts,
-      formatDate
+      formatDate,
+      scrollToContent
     }
   }
 }
@@ -204,43 +142,109 @@ export default {
 <style scoped>
 .home {
   min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
 /* Hero Section */
 .hero {
-  padding: var(--spacing-24) 0;
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, var(--bg-page) 0%, var(--bg-surface) 100%);
+  background: url('@/assets/photos/hero-bg.jpg') center/cover no-repeat fixed;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+
+.hero:hover::before {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .hero-content {
-  max-width: 800px;
-  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  animation: fadeInUp 1.2s ease-out;
 }
 
 .hero-title {
-  font-size: 48px;
+  font-size: clamp(48px, 10vw, 120px);
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-6);
+  color: white;
+  margin: 0;
   line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: fadeInScale 1.5s ease-out;
 }
 
-.hero-subtitle {
-  font-size: 20px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-8);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  animation: bounce 2s infinite;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
 }
 
-.hero-actions {
-  display: flex;
-  gap: var(--spacing-4);
-  justify-content: center;
-  flex-wrap: wrap;
+.scroll-indicator:hover {
+  opacity: 1;
+}
+
+.scroll-indicator svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px);
+  }
 }
 
 /* Stats Section */
@@ -448,68 +452,21 @@ export default {
   border: 1px solid var(--border-default);
 }
 
-/* Features */
-.features {
-  padding: var(--spacing-16) 0;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-6);
-}
-
-.feature-item {
-  text-align: center;
-  cursor: default;
-}
-
-.feature-item:hover {
-  transform: none;
-}
-
-.feature-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto var(--spacing-4);
-  color: var(--primary-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.feature-item h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-4);
-}
-
-.feature-item p {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin: 0;
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 36px;
+    font-size: clamp(36px, 12vw, 72px);
+    padding: 0 var(--spacing-4);
   }
-  
-  .hero-subtitle {
-    font-size: 18px;
+
+  .scroll-indicator {
+    bottom: 30px;
   }
-  
-  .hero-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
+
   .hero {
-    padding: var(--spacing-16) 0;
+    background-attachment: scroll;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
@@ -530,10 +487,9 @@ export default {
   .stat-number {
     font-size: 28px;
   }
-  
+
   .photo-grid,
-  .posts-grid,
-  .features-grid {
+  .posts-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -542,11 +498,11 @@ export default {
   .hero-title {
     font-size: 28px;
   }
-  
+
   .hero-subtitle {
     font-size: 16px;
   }
-  
+
   .post-meta {
     flex-direction: column;
     align-items: flex-start;

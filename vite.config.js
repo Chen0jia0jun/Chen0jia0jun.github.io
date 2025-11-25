@@ -2,11 +2,32 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 import { resolve } from 'path'
+import { readFileSync, writeFileSync } from 'fs'
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    // 插件：替换 404.html 中的 %BASE_URL% 占位符
+    {
+      name: 'replace-base-url',
+      apply(config, { mode }) {
+        return mode === 'production' || config.command === 'build'
+      },
+      generateBundle() {
+        try {
+          const distPath = resolve(__dirname, 'dist', '404.html')
+          const content = readFileSync(distPath, 'utf-8')
+          const updated = content.replace(/%BASE_URL%/g, '/')
+          writeFileSync(distPath, updated)
+          console.log('✓ 404.html 中的 %BASE_URL% 已替换为 /')
+        } catch (e) {
+          console.warn('⚠ 未能替换 404.html 中的 %BASE_URL%:', e.message)
+        }
+      }
+    }
+  ],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
