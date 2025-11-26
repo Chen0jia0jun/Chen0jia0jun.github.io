@@ -24,7 +24,7 @@
 
       <!-- 友情链接 -->
       <div class="footer-section friends-section">
-        <h3>友情链接</h3>
+        <h3>友链</h3>
         <div class="friends-grid">
           <a
             v-for="link in friendLinks"
@@ -33,6 +33,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="friend-link"
+            :title="link.description"
           >
             <div class="friend-avatar">
               <img :src="link.avatar" :alt="link.name" />
@@ -50,7 +51,7 @@
       <div class="footer-bottom">
         <div class="footer-bottom-content">
           <p class="copyright">
-            © 2003-{{ currentYear }} Cisphus World.
+            © 2025-{{ currentYear }} Cisphus World.
           </p>
           <div class="footer-stats">
             <span class="stat-item">{{ photoStore.photosCount }} 张照片</span>
@@ -159,6 +160,12 @@ export default {
         avatar: 'https://via.placeholder.com/60',
         url: 'https://example.com'
       },
+      {
+        url: "https://blog.lengineerc.com/",
+        avatar: "https://avatars.githubusercontent.com/u/134991304",
+        name: "LengineerC's Blog",
+        description: "On n'oublie jamais une personne, on s'habitue seulement à son absence."
+      }
     ]
 
     return {

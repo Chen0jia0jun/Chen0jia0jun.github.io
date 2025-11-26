@@ -70,27 +70,11 @@
           </router-link>
         </div>
         <div class="posts-grid">
-          <article
-            v-for="post in recentPosts.slice(0, 3)"
+          <BlogCard
+            v-for="post in recentPosts.slice(0,3)"
             :key="post.id"
-            class="post-card card"
-            @click="$router.push(`/blog/${post.id}`)"
-          >
-            <h3 class="post-title">{{ post.title }}</h3>
-            <p class="post-excerpt">{{ post.excerpt }}</p>
-            <div class="post-meta">
-              <span class="post-date">{{ formatDate(post.createdAt || post.date) }}</span>
-              <div class="post-tags">
-                <span
-                  v-for="tag in post.tags"
-                  :key="tag"
-                  class="post-tag"
-                >
-                  {{ tag }}
-                </span>
-              </div>
-            </div>
-          </article>
+            :post="post"
+            />
         </div>
       </div>
     </section>
@@ -101,9 +85,13 @@
 import { computed } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
+import BlogCard from '@/components/common/blogCard.vue'
 
 export default {
   name: 'Home',
+  components:{
+    BlogCard
+  },
   setup() {
     const photoStore = usePhotoStore()
     const blogStore = useBlogStore()
@@ -397,61 +385,6 @@ export default {
   gap: var(--spacing-6);
 }
 
-.post-card {
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.post-card:hover {
-  transform: translateY(-4px);
-}
-
-.post-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-4);
-  line-height: 1.3;
-}
-
-.post-excerpt {
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-6);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.post-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-4);
-}
-
-.post-date {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.post-tags {
-  display: flex;
-  gap: var(--spacing-2);
-  flex-wrap: wrap;
-}
-
-.post-tag {
-  background-color: var(--bg-page);
-  color: var(--text-secondary);
-  padding: var(--spacing-1) var(--spacing-3);
-  border-radius: var(--radius-2);
-  font-size: 12px;
-  border: 1px solid var(--border-default);
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
   .hero-title {
@@ -501,11 +434,6 @@ export default {
 
   .hero-subtitle {
     font-size: 16px;
-  }
-
-  .post-meta {
-    flex-direction: column;
-    align-items: flex-start;
   }
 }
 </style>
