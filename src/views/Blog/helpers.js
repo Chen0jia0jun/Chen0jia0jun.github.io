@@ -1,12 +1,7 @@
 /**
- * Blog helper functions extracted from `Blog.vue` script
+ * Blog helper functions
  */
 
-/**
- * 格式化日期字符串
- * @param {string|Date} dateString
- * @returns {string}
- */
 export function formatDate(dateString) {
   const date = new Date(dateString)
   return date.toLocaleDateString('zh-CN', {
@@ -16,12 +11,6 @@ export function formatDate(dateString) {
   })
 }
 
-/**
- * 根据文章内容估算阅读时间（分钟）
- * @param {string} content
- * @param {number} wordsPerMinute
- * @returns {string}
- */
 export function getReadingTime(content, wordsPerMinute = 200) {
   if (!content) return '1 分钟阅读'
   const textLength = content.replace(/[#*`]/g, '').length

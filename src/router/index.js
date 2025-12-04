@@ -1,9 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/Home/index.vue'
+import { createRouter, createWebHistory,createRouterMatcher } from 'vue-router'
+import Home from '@/views/Home.vue'
 import Gallery from '@/views/Gallery/index.vue'
+import GalleryPhotos from '@/views/Gallery/GalleryPhotos.vue'
 import Blog from '@/views/Blog/index.vue'
-import BlogPost from '@/views/BlogPost/index.vue'
-import Tests from '@/views/Tests/index.vue'
+import BlogPost from '@/views/Blog/BlogPost.vue'
+import Tests from '@/views/Tests.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
   {
@@ -20,6 +22,14 @@ const routes = [
     component: Gallery,
     meta: {
       title: '照片画廊'
+    }
+  },
+  {
+    path: '/gallery/:id',
+    name: 'GalleryPhotos',
+    component: GalleryPhotos,
+    meta: {
+      title: '相册详情'
     }
   },
   {
@@ -45,12 +55,30 @@ const routes = [
     meta: {
       title: '实验室'
     }
+  },
+  {
+    path: '/notfound',
+    name: 'NotFound',
+    component:NotFound,
+    meta:{
+      title: '页面未找到'
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/notfound'
   }
 ]
+
+const matcher = createRouterMatcher(routes,{
+    sensitive:false, // 不区分大小写
+    strict:false, // 不严格匹配末尾斜杠
+})
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+  matcher,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition

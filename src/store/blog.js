@@ -15,7 +15,7 @@
 import { defineStore } from 'pinia'
 
 // 动态导入所有 markdown 文件
-const mdFiles = import.meta.glob('/src/assets/posts/**/*.md', { query: '?raw', import: 'default', eager: true })
+const mdFiles = import.meta.glob('../assets/posts/**/*.md', { query: '?raw', import: 'default', eager: true })
 
 export const useBlogStore = defineStore('blog', {
   state: () => ({
@@ -60,12 +60,12 @@ export const useBlogStore = defineStore('blog', {
   actions: {
     /**
      * 从文件路径提取分类标签
-     * 例如: /src/assets/posts/Algorithm/STL学习.md -> ['Algorithm']
-     * 例如: /src/assets/posts/test_blog.md -> ['未分类']
+     * 例如: ../assets/posts/Algorithm/STL学习.md -> ['Algorithm']
+     * 例如: ../assets/posts/test_blog.md -> ['未分类']
      */
     extractTagsFromPath(filePath) {
       // 提取相对路径，兼容 Windows 和 Unix 路径
-      const relativePath = filePath.replace(/^.*src\/assets\/posts[\\/]/, '')
+      const relativePath = filePath.replace(/^.*assets\/posts[\\/]/, '')
       // 统一使用 / 作为分隔符
       const normalizedPath = relativePath.replace(/\\/g, '/')
       const pathParts = normalizedPath.split('/')
@@ -143,7 +143,7 @@ export const useBlogStore = defineStore('blog', {
      */
     generateIdFromPath(filePath) {
       // 提取相对路径并创建哈希，兼容 Windows 和 Unix 路径
-      const relativePath = filePath.replace(/^.*src\/assets\/posts[\\/]/, '')
+      const relativePath = filePath.replace(/^.*assets\/posts[\\/]/, '')
       const normalizedPath = relativePath.replace(/\\/g, '/')
       let hash = 0
       for (let i = 0; i < normalizedPath.length; i++) {
@@ -221,18 +221,13 @@ export const useBlogStore = defineStore('blog', {
     },
     
     async initBlog() {
-
       try {
         this.isLoading = true
 
         // 直接从 markdown 文件加载
         const postsFromFiles = this.loadMarkdownFiles()
 
-        this.posts = [
-          ...postsFromFiles
-        ]
-
-        console.log(`已加载 ${postsFromFiles.length} 篇文章`)
+        this.posts = [...postsFromFiles]
       } catch (err) {
         console.error('加载 markdown 文件失败:', err)
       } finally {

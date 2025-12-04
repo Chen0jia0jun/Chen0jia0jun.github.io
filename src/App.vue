@@ -1,17 +1,13 @@
 <template>
   <div id="app" :class="{ 'dark-theme': themeStore.isDark }">
-    <Navbar />
-    <main class="main-content">
-      <router-view v-slot="{ Component, route }">
-        <transition
-          name="fade"
-          mode="out-in"
-        >
-          <component :is="Component" :key="route.path" />
-        </transition>
-      </router-view>
+    <!-- Background Carousel - Only show on Gallery page -->
+    <GalleryCarousel v-if="$route.path.startsWith('/gallery')" />
+
+    <Navbar v-if="!$route.path.startsWith('/notfound')" />
+    <main class="main-content" :class="{ 'fullscreen': $route.path.startsWith('/notfound') }">
+      <router-view />
     </main>
-    <Footer />
+    <Footer v-if="!$route.path.startsWith('/notfound')" />
   </div>
 </template>
 
@@ -22,12 +18,14 @@ import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
+import GalleryCarousel from '@/components/GalleryCarousel.vue'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Footer
+    Footer,
+    GalleryCarousel
   },
   setup() {
     const themeStore = useThemeStore()
@@ -55,11 +53,28 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .main-content {
   flex: 1;
   padding-top: 64px; /* 为固定导航栏留出空间 */
+  position: relative;
+  z-index: 1;
+}
+
+.main-content.fullscreen {
+  padding-top: 0;
+}
+
+.navbar {
+  position: relative;
+  z-index: 10;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* 页面切换动画 */

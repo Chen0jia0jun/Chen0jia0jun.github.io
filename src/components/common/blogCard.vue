@@ -37,6 +37,7 @@ const props = defineProps({
     required: true
   }
 })
+console.log(props.post);
 
 const router = useRouter()
 

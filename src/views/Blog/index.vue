@@ -149,7 +149,7 @@ export default {
     // Computed properties
     const filteredPosts = computed(() => {
       let posts = [...blogStore.postsByDate]
-      
+
       // Search filter
       if (searchQuery.value) {
         const query = searchQuery.value.toLowerCase()
@@ -224,6 +224,7 @@ export default {
     const resetPagination = () => {
       currentPage.value = 1
     }
+
     
     return {
       blogStore,
