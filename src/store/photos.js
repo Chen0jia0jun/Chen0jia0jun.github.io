@@ -155,27 +155,6 @@ export const usePhotoStore = defineStore('photos', {
       }
     },
 
-    // 初始化默认相册（示例）
-    initDefaultCollections() {
-      if (this.collections.length === 0) {
-        this.addCollection({
-          name: '风景摄影',
-          description: '自然风光摄影作品集',
-          cover: 'landscape.jpg'
-        })
-        this.addCollection({
-          name: '人像摄影',
-          description: '人物摄影作品集',
-          cover: 'portrait.jpg'
-        })
-        this.addCollection({
-          name: '生活随拍',
-          description: '日常生活的美好瞬间',
-          cover: 'daily.jpg'
-        })
-      }
-    },
-
     // 从GitHub仓库同步相册
     async syncCollectionsFromGitHub(owner, repo, branch = 'main', path = '') {
       this.isLoading = true
@@ -362,10 +341,7 @@ export const usePhotoStore = defineStore('photos', {
 
     // 初始化
     initPhotos() {
-      this.loadFromLocalStorage()
-      if (this.collections.length === 0) {
-        this.initDefaultCollections()
-      }
+      this.loadFromLocalStorage();
     }
   }
 })
