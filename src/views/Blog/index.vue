@@ -5,7 +5,7 @@
       <div class="blog-header">
         <h1>博客</h1>
         <p class="blog-subtitle">
-          记录思考，分享经验，传递知识
+          Recording my journey in coding and technology.
         </p>
         <div class="blog-stats">
           <span>共 {{ blogStore.postsCount }} 篇文章</span>
@@ -426,7 +426,7 @@ export default {
 
 .search-input {
   width: 100%;
-  padding: var(--spacing-4) var(--spacing-5);
+  padding: var(--spacing-2);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-2);
   background-color: var(--bg-surface);
@@ -465,7 +465,7 @@ export default {
 }
 
 .tag-filter {
-  padding: var(--spacing-3) var(--spacing-6);
+  padding: var(--spacing-2);
   border: 1px solid var(--border-default);
   background-color: var(--bg-surface);
   color: var(--text-secondary);

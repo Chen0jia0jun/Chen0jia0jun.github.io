@@ -4,6 +4,14 @@
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">Cisphus</h1>
+        <TypewriterText
+          :texts="TEXT"
+          :type-speed="100"
+          :delete-speed="50"
+          :delay-between-texts="2000"
+          :start-delay="1800"
+          :loop="true"
+        />
       </div>
       <div class="scroll-indicator" @click="scrollToContent">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -86,11 +94,14 @@ import { computed } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
 import BlogCard from '@/components/common/blogCard.vue'
+import TypewriterText from '@/components/common/TypewriterText.vue'
+import { TEXT } from '@/utils/typeWriterText.js'
 
 export default {
   name: 'Home',
   components:{
-    BlogCard
+    BlogCard,
+    TypewriterText
   },
   setup() {
     const photoStore = usePhotoStore()
@@ -118,6 +129,7 @@ export default {
     return {
       photoStore,
       blogStore,
+      TEXT,
       recentPhotos,
       recentPosts,
       formatDate,
@@ -173,11 +185,27 @@ export default {
   font-size: clamp(48px, 10vw, 120px);
   font-weight: 700;
   color: white;
-  margin: 0;
+  margin: 0 0 20px 0;
   line-height: 1.2;
   letter-spacing: 0.05em;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   animation: fadeInScale 1.5s ease-out;
+}
+
+/* Typewriter Text Styles */
+.hero-content :deep(.typewriter) {
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 20px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  display: block;
+  min-height: 1.5em;
+}
+
+.hero-content :deep(.cursor) {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .scroll-indicator {
