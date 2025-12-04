@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{ 'dark-theme': themeStore.isDark }">
-    <!-- Background Carousel - Only show on Gallery page -->
-    <GalleryCarousel v-if="$route.path.startsWith('/gallery')" />
+    
+    <!-- <GalleryCarousel v-if="$route.path.startsWith('/gallery')" /> -->
 
     <Navbar v-if="!$route.path.startsWith('/notfound')" />
     <main class="main-content" :class="{ 'fullscreen': $route.path.startsWith('/notfound') }">
