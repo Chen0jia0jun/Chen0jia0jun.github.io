@@ -3,7 +3,7 @@
     <div class="container">
       <!-- 技术栈 -->
       <div class="footer-section tech-section">
-        <h3>技术栈</h3>
+        <h3>Community</h3>
         <div class="tech-grid">
           <a
             v-for="tech in techStack"
@@ -14,10 +14,7 @@
             class="tech-card"
             :title="tech.description"
           >
-            <div class="tech-logo">
-              <img :src="tech.logo" :alt="tech.name" />
-            </div>
-            <span class="tech-name">{{ tech.name }}</span>
+          <img :src="tech.src" :alt="tech.name" class="shield-logo" />
           </a>
         </div>
       </div>
@@ -51,7 +48,7 @@
       <div class="footer-bottom">
         <div class="footer-bottom-content">
           <p class="copyright">
-            © 2025-{{ currentYear }} Cisphus World.
+            © {{ currentYear }} Cisphus World.
           </p>
           <div class="footer-stats">
             <span class="stat-item">{{ photoStore.photosCount }} 张照片</span>
@@ -118,48 +115,42 @@ export default {
       {
         name: 'Vue.js',
         description: '渐进式 JavaScript 框架',
-        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vuedotjs.svg',
+        src: 'https://img.shields.io/badge/vuejs-framework-blue?logo=vue.js',
         link: 'https://cn.vuejs.org/'
       },
       {
         name: 'Vite',
         description: '下一代前端构建工具',
-        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vite.svg',
+        src: 'https://img.shields.io/badge/vite-framework-blue?logo=vite',
         link: 'https://cn.vitejs.dev/'
       },
       {
         name: 'Pinia',
         description: 'Vue 状态管理库',
-        logo: 'https://pinia.vuejs.org/logo.svg',
+        src: 'https://img.shields.io/badge/pinia-framework-blue?logo=pinia',
         link: 'https://pinia.vuejs.org/zh/'
-      },
-      {
-        name: 'Router',
-        description: 'Vue.js 官方路由',
-        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vuedotjs.svg',
-        link: 'https://router.vuejs.org/zh/'
       },
       {
         name: 'JavaScript',
         description: '现代 Web 开发语言',
-        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/javascript.svg',
+        src: 'https://img.shields.io/badge/javascript-language-yellow?logo=javascript',
         link: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
       },
       {
         name: 'Vitest',
         description: '快速的单元测试框架',
-        logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vitest.svg',
+        src: 'https://img.shields.io/badge/vitest-framework-blue?logo=vitest',
         link: 'https://cn.vitest.dev/'
+      },
+      {
+        name: 'GitHub',
+        description: '代码托管平台',
+        src: 'https://img.shields.io/badge/github-repo-blue?logo=github',
+        link: 'https://github.com/'
       }
     ]
 
     const friendLinks = [
-      {
-        name: '示例博客 1',
-        description: '技术博客',
-        avatar: 'https://via.placeholder.com/60',
-        url: 'https://example.com'
-      },
       {
         url: "https://blog.lengineerc.com/",
         avatar: "https://avatars.githubusercontent.com/u/134991304",
@@ -211,44 +202,16 @@ export default {
 .tech-card {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-4);
-  background-color: var(--bg-page);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-2);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .tech-card:hover {
-  border-color: var(--primary-500);
   transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.tech-logo {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tech-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* 移除灰度滤镜，确保在暗色主题下清晰可见 */
-}
-
-.tech-name {
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.tech-card:hover .tech-name {
-  color: var(--primary-500);
+.shield-logo {
+  height: 24px;
 }
 
 /* 友情链接区域 */
