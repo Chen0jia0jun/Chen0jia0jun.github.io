@@ -4,6 +4,14 @@
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">Cisphus</h1>
+        <TypewriterText
+          :texts="TEXT"
+          :type-speed="100"
+          :delete-speed="50"
+          :delay-between-texts="2000"
+          :start-delay="1800"
+          :loop="true"
+        />
       </div>
       <div class="scroll-indicator" @click="scrollToContent">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -12,72 +20,71 @@
       </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
-      <div class="container">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-number">{{ photoStore.photosCount }}</div>
-            <div class="stat-label">照片</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">{{ blogStore.postsCount }}</div>
-            <div class="stat-label">文章</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">{{ blogStore.allTags.length }}</div>
-            <div class="stat-label">标签</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent Photos -->
-    <section class="recent-photos" v-if="recentPhotos.length > 0">
-      <div class="container">
-        <div class="section-header">
-          <h2>最新照片</h2>
-          <router-link to="/gallery" class="view-all">
-            查看全部 →
-          </router-link>
-        </div>
-        <div class="photo-grid">
-          <div
-            v-for="photo in recentPhotos.slice(0, 6)"
-            :key="photo.id"
-            class="photo-card"
-            @click="$router.push('/gallery')"
-          >
-            <div class="photo-image">
-              <img :src="photo.thumbnail || photo.url" :alt="photo.title" loading="lazy" />
-              <div class="photo-overlay">
-                <span class="photo-title">{{ photo.title }}</span>
-                <span class="photo-date">{{ formatDate(photo.date) }}</span>
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <div class="content-wrapper">
+        <!-- Left Content -->
+        <div class="content-left">
+          <!-- Recent Photos -->
+          <section class="recent-photos" v-if="recentPhotos.length > 0">
+            <div class="section-header">
+              <h2>最新照片</h2>
+              <router-link to="/gallery" class="view-all">
+                查看全部 →
+              </router-link>
+            </div>
+            <div class="photo-grid">
+              <div
+                v-for="photo in recentPhotos.slice(0, 6)"
+                :key="photo.id"
+                class="photo-card"
+                @click="$router.push('/gallery')"
+              >
+                <div class="photo-image">
+                  <img :src="photo.thumbnail || photo.url" :alt="photo.title" loading="lazy" />
+                  <div class="photo-overlay">
+                    <span class="photo-title">{{ photo.title }}</span>
+                    <span class="photo-date">{{ formatDate(photo.date) }}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+          </section>
 
-    <!-- Recent Posts -->
-    <section class="recent-posts" v-if="recentPosts.length > 0">
-      <div class="container">
-        <div class="section-header">
-          <h2>最新文章</h2>
-          <router-link to="/blog" class="view-all">
-            查看全部 →
-          </router-link>
+          <!-- Recent Posts -->
+          <section class="recent-posts" v-if="recentPosts.length > 0">
+            <div class="section-header">
+              <h2>最新文章</h2>
+              <router-link to="/blog" class="view-all">
+                查看全部 →
+              </router-link>
+            </div>
+            <div class="posts-grid">
+              <BlogCard
+                v-for="post in recentPosts.slice(0,3)"
+                :key="post.id"
+                :post="post"
+                />
+            </div>
+          </section>
         </div>
-        <div class="posts-grid">
-          <BlogCard
-            v-for="post in recentPosts.slice(0,3)"
-            :key="post.id"
-            :post="post"
-            />
-        </div>
+
+        <!-- Right Sidebar -->
+        <aside class="content-right">
+          <ProfileCard
+            :name="profile.name"
+            :bio="profile.bio"
+            :avatar-url="profile.avatarUrl"
+            :social-links="profile.socialLinks"
+            :stats="{
+              posts: blogStore.postsCount,
+              tags: blogStore.allTags.length,
+              photos: photoStore.photosCount
+            }"
+          />
+        </aside>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -86,11 +93,17 @@ import { computed } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
 import BlogCard from '@/components/common/blogCard.vue'
+import TypewriterText from '@/components/common/TypewriterText.vue'
+import ProfileCard from '@/components/common/ProfileCard.vue'
+import { TEXT } from '@/utils/typeWriterText.js'
+import { PROFILE } from '@/utils/config.js'
 
 export default {
   name: 'Home',
-  components:{
-    BlogCard
+  components: {
+    BlogCard,
+    TypewriterText,
+    ProfileCard
   },
   setup() {
     const photoStore = usePhotoStore()
@@ -98,6 +111,9 @@ export default {
 
     const recentPhotos = computed(() => photoStore.photosByDate)
     const recentPosts = computed(() => blogStore.postsByDate)
+
+    // 个人资料信息
+    const profile = computed(() => PROFILE);
 
     const formatDate = (dateString) => {
       const date = new Date(dateString)
@@ -118,6 +134,8 @@ export default {
     return {
       photoStore,
       blogStore,
+      TEXT,
+      profile,
       recentPhotos,
       recentPosts,
       formatDate,
@@ -173,11 +191,27 @@ export default {
   font-size: clamp(48px, 10vw, 120px);
   font-weight: 700;
   color: white;
-  margin: 0;
+  margin: 0 0 20px 0;
   line-height: 1.2;
   letter-spacing: 0.05em;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   animation: fadeInScale 1.5s ease-out;
+}
+
+/* Typewriter Text Styles */
+.hero-content :deep(.typewriter) {
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 20px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  display: block;
+  min-height: 1.5em;
+}
+
+.hero-content :deep(.cursor) {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .scroll-indicator {
@@ -235,44 +269,24 @@ export default {
   }
 }
 
-/* Stats Section */
-.stats {
+/* Main Content Area */
+.main-content {
   padding: var(--spacing-16) 0;
-  background-color: var(--bg-surface);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--spacing-8);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.stat-item {
-  text-align: center;
-  padding: var(--spacing-6);
-  border-radius: var(--radius-3);
   background-color: var(--bg-page);
-  border: 1px solid var(--border-default);
-  transition: transform 0.2s ease;
 }
 
-.stat-item:hover {
-  transform: translateY(-4px);
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-6);
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--spacing-8);
 }
 
-.stat-number {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--primary-500);
-  margin-bottom: var(--spacing-2);
-}
-
-.stat-label {
-  font-size: 16px;
-  color: var(--text-secondary);
-  font-weight: 500;
+/* Left Content */
+.content-left {
+  min-width: 0;
 }
 
 /* Section Headers */
@@ -386,6 +400,18 @@ export default {
 }
 
 /* 响应式设计 */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .content-right {
+    order: -1;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-8) auto;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-title {
     font-size: clamp(36px, 12vw, 72px);
@@ -400,24 +426,17 @@ export default {
     background-attachment: scroll;
   }
 
+  .content-wrapper {
+    padding: 0 var(--spacing-4);
+    gap: var(--spacing-6);
+  }
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .section-header h2 {
-    font-size: 28px;
-  }
-  
-  .stats-grid {
-    gap: var(--spacing-4);
-  }
-  
-  .stat-item {
-    padding: var(--spacing-4);
-  }
-  
-  .stat-number {
     font-size: 28px;
   }
 
