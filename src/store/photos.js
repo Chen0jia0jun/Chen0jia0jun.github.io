@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import {IMAGE_BASE_URL} from '../utils/config.js';
 
 export const usePhotoStore = defineStore('photos', {
   state: () => ({
@@ -6,7 +7,7 @@ export const usePhotoStore = defineStore('photos', {
     collections: [],
     isLoading: false,
     // GitHub图床基础URL
-    githubImageBase: 'https://raw.githubusercontent.com/Chen0jia0jun/PicGo_Repo/main'
+    githubImageBase: IMAGE_BASE_URL
   }),
 
   getters: {

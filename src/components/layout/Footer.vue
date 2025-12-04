@@ -6,7 +6,7 @@
         <h3>Community</h3>
         <div class="tech-grid">
           <a
-            v-for="tech in techStack"
+            v-for="tech in TECH_STACK"
             :key="tech.name"
             :href="tech.link"
             target="_blank"
@@ -24,7 +24,7 @@
         <h3>友链</h3>
         <div class="friends-grid">
           <a
-            v-for="link in friendLinks"
+            v-for="link in FRIEND_LINKS"
             :key="link.name"
             :href="link.url"
             target="_blank"
@@ -67,6 +67,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
+import { FRIEND_LINKS, TECH_STACK, SITE_START_DATE } from '@/utils/config.js'
 
 export default {
   name: 'Footer',
@@ -77,7 +78,7 @@ export default {
     const currentYear = computed(() => new Date().getFullYear())
 
     // 网站创建时间
-    const siteStartDate = new Date('2025-11-19 21:05:00')
+    const siteStartDate = SITE_START_DATE;
 
     const siteRuntime = ref({
       days: 0,
@@ -111,61 +112,13 @@ export default {
       }
     })
 
-    const techStack = [
-      {
-        name: 'Vue.js',
-        description: '渐进式 JavaScript 框架',
-        src: 'https://img.shields.io/badge/vuejs-framework-blue?logo=vue.js',
-        link: 'https://cn.vuejs.org/'
-      },
-      {
-        name: 'Vite',
-        description: '下一代前端构建工具',
-        src: 'https://img.shields.io/badge/vite-framework-blue?logo=vite',
-        link: 'https://cn.vitejs.dev/'
-      },
-      {
-        name: 'Pinia',
-        description: 'Vue 状态管理库',
-        src: 'https://img.shields.io/badge/pinia-framework-blue?logo=pinia',
-        link: 'https://pinia.vuejs.org/zh/'
-      },
-      {
-        name: 'JavaScript',
-        description: '现代 Web 开发语言',
-        src: 'https://img.shields.io/badge/javascript-language-yellow?logo=javascript',
-        link: 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
-      },
-      {
-        name: 'Vitest',
-        description: '快速的单元测试框架',
-        src: 'https://img.shields.io/badge/vitest-framework-blue?logo=vitest',
-        link: 'https://cn.vitest.dev/'
-      },
-      {
-        name: 'GitHub',
-        description: '代码托管平台',
-        src: 'https://img.shields.io/badge/github-repo-blue?logo=github',
-        link: 'https://github.com/'
-      }
-    ]
-
-    const friendLinks = [
-      {
-        url: "https://blog.lengineerc.com/",
-        avatar: "https://avatars.githubusercontent.com/u/134991304",
-        name: "LengineerC's Blog",
-        description: "On n'oublie jamais une personne, on s'habitue seulement à son absence."
-      }
-    ]
-
     return {
       photoStore,
       blogStore,
       currentYear,
       siteRuntime,
-      techStack,
-      friendLinks
+      TECH_STACK,
+      FRIEND_LINKS,
     }
   }
 }
