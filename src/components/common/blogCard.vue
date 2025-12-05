@@ -79,10 +79,11 @@ const handleClick = () => {
   margin-bottom: var(--spacing-4);
   line-height: 1.3;
   flex-shrink: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .post-excerpt {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: var(--spacing-6);
   flex: 1;
@@ -90,6 +91,7 @@ const handleClick = () => {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .post-meta {
@@ -107,15 +109,22 @@ const handleClick = () => {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  color: var(--text-secondary);
+  color: var(--primary-100);
   font-size: 15px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .post-separator {
-  color: var(--border-default);
+  color: var(--primary-100);
+  opacity: 0.7;
+}
+
+.post-date{
+  color: var(--text-primary);
 }
 
 .post-reading-time {
+  color: var(--text-primary);
   white-space: nowrap;
 }
 

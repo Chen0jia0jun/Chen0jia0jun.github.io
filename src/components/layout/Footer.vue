@@ -293,8 +293,7 @@ export default {
 .friend-link {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
-  padding: var(--spacing-3);
+  padding: var(--spacing-4);
   text-decoration: none;
   transition: all 0.3s ease;
   width: 280px;
