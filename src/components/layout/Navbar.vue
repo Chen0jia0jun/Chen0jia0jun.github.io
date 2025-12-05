@@ -155,8 +155,10 @@ export default {
   left: 0;
   right: 0;
   height: 64px;
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-default);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 1000;
   transition: all 0.25s ease;
 }
@@ -337,6 +339,7 @@ export default {
 
   .navbar {
     height: 56px;
+    background: rgba(255, 255, 255, 0.75);
   }
 
   .mobile-nav {
@@ -352,5 +355,11 @@ export default {
     font-size: 18px;
     gap: var(--spacing-2);
   }
+}
+
+/* 暗色主题适配 */
+[data-theme="dark"] .navbar {
+  background: rgba(20, 20, 20, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>

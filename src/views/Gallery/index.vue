@@ -3,10 +3,7 @@
     <div class="container">
       <!-- Header -->
       <div class="gallery-header">
-        <h1>照片画廊</h1>
-        <p class="gallery-subtitle">
-          记录生活中的美好瞬间，分享视觉的故事
-        </p>
+        <h1 style="color:var(--primary-100)">照片画廊</h1>
         <div class="gallery-stats">
           <span>共 {{ photoStore.collectionsCount }} 个相册</span>
           <span>共 {{ photoStore.photosCount }} 张照片</span>
@@ -202,14 +199,8 @@ export default {
   margin-bottom: var(--spacing-4);
 }
 
-.gallery-subtitle {
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-6);
-}
-
 .gallery-stats {
-  color: var(--text-secondary);
+  color: var(--primary-100);
   font-size: 14px;
   display: flex;
   justify-content: center;
@@ -386,10 +377,6 @@ export default {
 @media (max-width: 768px) {
   .gallery-header h1 {
     font-size: 36px;
-  }
-
-  .gallery-subtitle {
-    font-size: 16px;
   }
 
   .gallery-stats {

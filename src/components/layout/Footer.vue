@@ -170,10 +170,18 @@ export default {
 
 <style scoped>
 .footer {
-  background-color: var(--bg-surface);
-  border-top: 1px solid var(--border-default);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   margin-top: var(--spacing-24);
   padding: var(--spacing-16) 0 var(--spacing-8);
+}
+
+/* 暗色主题下的底部毛玻璃效果 */
+[data-theme="dark"] .footer {
+  background: rgba(20, 20, 20, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* 主内容区域 - 左中右分栏 */
@@ -287,9 +295,6 @@ export default {
   align-items: center;
   gap: var(--spacing-3);
   padding: var(--spacing-3);
-  background-color: var(--bg-page);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-2);
   text-decoration: none;
   transition: all 0.3s ease;
   width: 280px;
