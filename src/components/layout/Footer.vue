@@ -1,48 +1,80 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <!-- 技术栈 -->
-      <div class="footer-section tech-section">
-        <h3>Community</h3>
-        <div class="tech-grid">
-          <a
-            v-for="tech in TECH_STACK"
-            :key="tech.name"
-            :href="tech.link"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="tech-card"
-            :title="tech.description"
-          >
-          <img :src="tech.src" :alt="tech.name" class="shield-logo" />
-          </a>
+      <!-- 主要内容区域 - 左右分栏 -->
+      <div class="footer-main">
+        <!-- 左侧：随机博客 -->
+        <div class="footer-left">
+          <div class="image-link-container">
+            <a
+              v-for="link in randomBlogLinks"
+              :key="link.name"
+              :href="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="image-link"
+              :title="link.description"
+            >
+              <img src="/transport.png" :alt="link.name" class="link-image" />
+              <span class="link-label">{{ link.name }}</span>
+            </a>
+          </div>
+          <div class="image-link-container">
+            <!-- 虫洞链接 -->
+            <a
+              v-if="wormholeLink"
+              :href="wormholeLink.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="image-link"
+              :title="wormholeLink.description"
+            >
+              <img src="/blackhole.png" :alt="wormholeLink.name" class="link-image" />
+              <span class="link-label">{{ wormholeLink.name }}</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-middle">
+          <h3 class="section-title">社区</h3>
+          <div class="links-grid">
+            <a
+              v-for="tech in TECH_STACK"
+              :key="tech.name"
+              :href="tech.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="tech-badge"
+              :title="tech.description"
+            >
+              <img :src="tech.src" :alt="tech.name" class="shield-logo" />
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <h3 class="section-title">友链</h3>
+          <div class="links-grid">
+            <a
+              v-for="link in FRIEND_LINKS"
+              :key="link.name"
+              :href="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="friend-link"
+              :title="link.description"
+            >
+              <div class="friend-avatar">
+                <img :src="link.avatar" :alt="link.name" />
+              </div>
+              <div class="friend-info">
+                <span class="friend-name">{{ link.name }}</span>
+                <span class="friend-desc">{{ link.description }}</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
-
-      <!-- 友情链接 -->
-      <div class="footer-section friends-section">
-        <h3>友链</h3>
-        <div class="friends-grid">
-          <a
-            v-for="link in FRIEND_LINKS"
-            :key="link.name"
-            :href="link.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="friend-link"
-            :title="link.description"
-          >
-            <div class="friend-avatar">
-              <img :src="link.avatar" :alt="link.name" />
-            </div>
-            <div class="friend-info">
-              <span class="friend-name">{{ link.name }}</span>
-              <span class="friend-desc">{{ link.description }}</span>
-            </div>
-          </a>
-        </div>
-      </div>
-
 
       <!-- 底部信息 -->
       <div class="footer-bottom">
@@ -67,7 +99,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
-import { FRIEND_LINKS, TECH_STACK, SITE_START_DATE } from '@/utils/config.js'
+import { FRIEND_LINKS, TECH_STACK, RANDOM_BLOG_LINKS, SITE_START_DATE } from '@/utils/config.js'
 
 export default {
   name: 'Footer',
@@ -112,6 +144,15 @@ export default {
       }
     })
 
+    // 分离随机博客和虫洞链接
+    const randomBlogLinks = computed(() => {
+      return RANDOM_BLOG_LINKS.filter(link => link.name !== 'ForeverBlog')
+    })
+
+    const wormholeLink = computed(() => {
+      return RANDOM_BLOG_LINKS.find(link => link.name === 'ForeverBlog')
+    })
+
     return {
       photoStore,
       blogStore,
@@ -119,6 +160,9 @@ export default {
       siteRuntime,
       TECH_STACK,
       FRIEND_LINKS,
+      RANDOM_BLOG_LINKS,
+      randomBlogLinks,
+      wormholeLink,
     }
   }
 }
@@ -132,12 +176,32 @@ export default {
   padding: var(--spacing-16) 0 var(--spacing-8);
 }
 
-/* 技术栈区域 */
-.tech-section {
+/* 主内容区域 - 左中右分栏 */
+.footer-main {
+  display: flex;
+  gap: var(--spacing-12);
   margin-bottom: var(--spacing-12);
 }
 
-.tech-section h3 {
+.footer-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-right {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-middle{
+  flex: 8;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
   font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
@@ -145,21 +209,71 @@ export default {
   text-align: center;
 }
 
-.tech-grid {
+/* 图片链接容器 */
+.image-link-container {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--spacing-4);
+  align-items: center;
 }
 
-.tech-card {
+.image-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: var(--spacing-2);
+}
+
+.image-link:hover {
+  transform: translateY(-4px);
+}
+
+.link-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.image-link:hover .link-image {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* 暗色主题下将图片变为白色 */
+:host(.dark) .link-image,
+:root[data-theme="dark"] .link-image {
+  filter: invert(1) brightness(1.5);
+}
+
+.link-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 技术栈和友情链接网格 */
+.links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  justify-content: center;
+  margin-top: var(--spacing-4);
+}
+
+/* 技术栈徽章 */
+.tech-badge {
   display: flex;
   align-items: center;
   text-decoration: none;
   transition: all 0.3s ease;
+  padding: var(--spacing-2);
 }
 
-.tech-card:hover {
+.tech-badge:hover {
   transform: translateY(-2px);
 }
 
@@ -167,27 +281,7 @@ export default {
   height: 24px;
 }
 
-/* 友情链接区域 */
-.friends-section {
-  margin-bottom: var(--spacing-12);
-}
-
-.friends-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-6);
-  text-align: center;
-}
-
-.friends-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--spacing-4);
-  max-width: 100%;
-}
-
+/* 友情链接 */
 .friend-link {
   display: flex;
   align-items: center;
@@ -254,27 +348,6 @@ export default {
   text-overflow: ellipsis;
 }
 
-/* 快速链接区域 */
-.links-section {
-  margin-bottom: var(--spacing-12);
-}
-
-.links-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-4);
-  text-align: center;
-}
-
-.footer-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-4);
-}
-
-
 /* 底部信息 */
 .footer-bottom {
   border-top: 1px solid var(--border-default);
@@ -314,11 +387,12 @@ export default {
     padding: var(--spacing-12) 0 var(--spacing-6);
   }
 
-  .tech-grid {
-    gap: var(--spacing-3);
+  .footer-main {
+    flex-direction: column;
+    gap: var(--spacing-8);
   }
 
-  .friends-grid {
+  .links-grid {
     justify-content: center;
   }
 
@@ -326,8 +400,9 @@ export default {
     width: 100%;
   }
 
-  .footer-nav {
-    gap: var(--spacing-2);
+  .link-image {
+    width: 60px;
+    height: 60px;
   }
 
   .footer-bottom-content {
@@ -343,22 +418,25 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .tech-section h3,
-  .friends-section h3,
-  .links-section h3 {
+  .section-title {
     font-size: 16px;
   }
 
-  .tech-card {
-    padding: var(--spacing-2) var(--spacing-3);
-  }
-
-  .tech-name {
-    font-size: 13px;
+  .tech-badge {
+    padding: var(--spacing-2);
   }
 
   .footer-stats {
     font-size: 12px;
+  }
+
+  .link-image {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bg-page);
+    border: 2px solid var(--border-default);
+    border-radius: var(--radius-2);
+    padding: var(--spacing-2);
   }
 }
 </style>
