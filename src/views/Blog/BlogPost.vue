@@ -260,9 +260,15 @@ export default {
 </script>
 
 <style scoped>
+/* 博客详情页样式 */
 .blog-post {
   min-height: 100vh;
   padding: var(--spacing-8) 0;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-3);
+  width: 75%;
+  margin: 0 auto;
+  margin-top: var(--spacing-12);
 }
 
 /* Navigation */
@@ -274,19 +280,13 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-3) var(--spacing-6);
-  border: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
-  color: var(--text-secondary);
-  border-radius: var(--radius-2);
+  padding: var(--spacing-4) var(--spacing-4);
+  color: var(--text-primary);
+  background-color: unset;
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 16px;
-}
-
-.back-btn:hover {
-  background-color: var(--bg-page);
-  color: var(--text-primary);
 }
 
 /* Header */
@@ -298,7 +298,6 @@ export default {
 .post-title {
   font-size: 48px;
   font-weight: 700;
-  color: var(--text-primary);
   line-height: 1.2;
   margin-bottom: var(--spacing-6);
   max-width: 800px;
@@ -318,12 +317,7 @@ export default {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  color: var(--text-secondary);
   font-size: 17px;
-}
-
-.post-separator {
-  color: var(--border-default);
 }
 
 .post-reading-time {
@@ -374,7 +368,6 @@ export default {
 .markdown-content h4,
 .markdown-content h5,
 .markdown-content h6 {
-  color: var(--text-primary);
   margin-top: var(--spacing-12);
   margin-bottom: var(--spacing-6);
   font-weight: 600;
@@ -396,7 +389,6 @@ export default {
 
 .markdown-content p {
   margin-bottom: var(--spacing-6);
-  color: var(--text-primary);
 }
 
 .markdown-content a {
@@ -419,7 +411,6 @@ export default {
 
 .markdown-content li {
   margin-bottom: var(--spacing-3);
-  color: var(--text-primary);
 }
 
 .markdown-content blockquote {
@@ -458,7 +449,6 @@ export default {
 /* Code Styles */
 .markdown-content :not(pre) > code {
   background-color: var(--bg-page);
-  color: var(--primary-600);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-2);
   font-size: 14px;
@@ -503,12 +493,9 @@ export default {
 .markdown-content th {
   background-color: var(--bg-page);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--primary-100);
 }
 
-.markdown-content td {
-  color: var(--text-primary);
-}
 
 .markdown-content tr:last-child td {
   border-bottom: none;
@@ -532,13 +519,12 @@ export default {
 .post-sharing h3 {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary);
   margin-bottom: var(--spacing-4);
 }
 
 .sharing-buttons {
   display: flex;
-  gap: var(--spacing-3);
+  gap: var(--spacing-4);
 }
 
 .share-btn {
@@ -546,18 +532,16 @@ export default {
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-5);
-  border: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
-  color: var(--text-secondary);
-  border-radius: var(--radius-2);
+  border: none;
+  background-color: unset;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 16px;
 }
 
 .share-btn:hover {
-  background-color: var(--bg-page);
-  color: var(--text-primary);
+  color: var(--primary-100);
 }
 
 .post-actions {

@@ -260,20 +260,16 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2);
-  padding: var(--spacing-3) var(--spacing-5);
-  border: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  border-radius: var(--radius-2);
+  padding: var(--spacing-4) var(--spacing-4);
+  color: var(--primary-100);
+  background-color: unset;
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: var(--spacing-6);
 }
 
-.back-btn:hover {
-  background-color: var(--bg-page);
-}
 
 .collection-info {
   text-align: center;
@@ -282,18 +278,18 @@ export default {
 .collection-info h1 {
   font-size: 48px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--primary-100);
   margin-bottom: var(--spacing-4);
 }
 
 .gallery-subtitle {
   font-size: 18px;
-  color: var(--text-secondary);
+  color: var(--primary-100);
   margin-bottom: var(--spacing-6);
 }
 
 .gallery-stats {
-  color: var(--text-secondary);
+  color: var(--primary-100);
   font-size: 14px;
   display: flex;
   justify-content: center;
