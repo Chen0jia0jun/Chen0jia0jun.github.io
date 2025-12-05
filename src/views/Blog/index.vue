@@ -3,10 +3,7 @@
     <div class="container">
       <!-- Header -->
       <div class="blog-header">
-        <h1>博客</h1>
-        <p class="blog-subtitle">
-          Recording my journey in coding and technology.
-        </p>
+        <h1 style="color:var(--primary-100)">博客</h1>
         <div class="blog-stats">
           <span>共 {{ blogStore.postsCount }} 篇文章</span>
         </div>
@@ -280,14 +277,8 @@ export default {
   margin-bottom: var(--spacing-4);
 }
 
-.blog-subtitle {
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-6);
-}
-
 .blog-stats {
-  color: var(--text-secondary);
+  color: var(--primary-100);
   font-size: 14px;
 }
 
@@ -580,11 +571,7 @@ export default {
   .blog-header h1 {
     font-size: 36px;
   }
-  
-  .blog-subtitle {
-    font-size: 16px;
-  }
-  
+
   .blog-controls {
     flex-direction: column;
     align-items: stretch;

@@ -4,9 +4,6 @@
       <!-- Header -->
       <div class="tests-header">
         <h1>实验室</h1>
-        <p class="tests-subtitle">
-          新功能测试和实验性功能展示区域
-        </p>
       </div>
 
       <!-- Feature Grid -->
@@ -233,12 +230,6 @@ export default {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: var(--spacing-4);
-}
-
-.tests-subtitle {
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-6);
 }
 
 /* Features Grid */
@@ -508,10 +499,6 @@ export default {
 @media (max-width: 768px) {
   .tests-header h1 {
     font-size: 36px;
-  }
-  
-  .tests-subtitle {
-    font-size: 16px;
   }
   
   .features-grid {

@@ -28,7 +28,7 @@
           <!-- Recent Photos -->
           <section class="recent-photos" v-if="recentPhotos.length > 0">
             <div class="section-header">
-              <h2>最新照片</h2>
+              <h2 style="color:var(--primary-100)">最新照片</h2>
               <router-link to="/gallery" class="view-all">
                 查看全部 →
               </router-link>
@@ -54,7 +54,7 @@
           <!-- Recent Posts -->
           <section class="recent-posts" v-if="recentPosts.length > 0">
             <div class="section-header">
-              <h2>最新文章</h2>
+              <h2 style="color:var(--primary-100)">最新文章</h2>
               <router-link to="/blog" class="view-all">
                 查看全部 →
               </router-link>
@@ -160,7 +160,6 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: url('@/assets/photos/hero-bg.jpg') center/cover no-repeat fixed;
   overflow: hidden;
 }
 
@@ -272,7 +271,6 @@ export default {
 /* Main Content Area */
 .main-content {
   padding: var(--spacing-16) 0;
-  background-color: var(--bg-page);
 }
 
 .content-wrapper {
@@ -307,7 +305,7 @@ export default {
 }
 
 .view-all {
-  color: var(--primary-500);
+  color: var(--primary-100);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -390,7 +388,6 @@ export default {
 /* Recent Posts */
 .recent-posts {
   padding: var(--spacing-16) 0;
-  background-color: var(--bg-page);
 }
 
 .posts-grid {
