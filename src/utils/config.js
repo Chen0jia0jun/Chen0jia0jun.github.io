@@ -49,12 +49,25 @@ export const FRIEND_LINKS = [
         description: "On n'oublie jamais une personne, on s'habitue seulement à son absence."
       }
     ];
-    
+
+export const RANDOM_BLOG_LINKS = [
+      {
+        name: 'Travellings',
+        url: 'https://www.travellings.cn/go.html',
+        description: 'Travellings'
+      },
+      {
+        name: 'ForeverBlog',
+        url: 'https://foreverblog.cn/go.html',
+        description: '虫洞彼岸，永恒博客'
+      }
+    ];
+
 export const SITE_START_DATE = new Date('2025-11-19 21:05:00');
 
 export const PROFILE = {
   name: 'Cisphus',
-  bio: '心有猛虎，细嗅蔷薇',
+  bio: '我想成为你生命中的光，即使只是微弱的光。',
   avatarUrl: '/avatar.jpg',
   socialLinks:[
       {
