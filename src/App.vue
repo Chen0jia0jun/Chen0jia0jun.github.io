@@ -22,7 +22,7 @@ import { useBlogStore } from '@/store/blog'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
-import Loading from '@/components/common/loading.vue'
+import Loading from '@/components/common/Loading.vue'
 import { storeToRefs } from 'pinia'
 
 
