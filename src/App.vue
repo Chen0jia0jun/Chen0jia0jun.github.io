@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{ 'dark-theme': themeStore.isDark }">
-    
+
     <!-- <GalleryCarousel v-if="$route.path.startsWith('/gallery')" /> -->
 
     <Navbar v-if="!$route.path.startsWith('/notfound')" />
@@ -8,41 +8,83 @@
       <router-view />
     </main>
     <Footer v-if="!$route.path.startsWith('/notfound')" />
+
+    <!-- 路由加载动画 -->
+    <Loading v-if="isLoading" />
   </div>
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/store/theme'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
+import Loading from '@/components/common/loading.vue'
 
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer,
-    GalleryCarousel
+    GalleryCarousel,
+    Loading
   },
   setup() {
     const themeStore = useThemeStore()
     const photoStore = usePhotoStore()
     const blogStore = useBlogStore()
+    const router = useRouter()
+    const isLoading = ref(false)
+
+    // 监听路由变化
+    let loadingTimeout = null
+
+    router.beforeEach((to, from, next) => {
+      // 显示加载动画
+      isLoading.value = true
+      console.log("show loading");
+      // 清除之前的定时器
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout)
+      }
+
+      // 设置一个最小显示时间，避免闪烁
+      loadingTimeout = setTimeout(() => {
+        isLoading.value = false;
+        console.log("hide loading");
+      }, 500)
+
+      next()
+    })
+
+    router.afterEach(() => {
+      路由完成后隐藏加载动画
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout)
+      }
+
+      // 延迟一点隐藏，让页面有时间渲染
+      setTimeout(() => {
+        isLoading.value = false
+      }, 500)
+    })
 
     onMounted(() => {
       // 初始化主题
       themeStore.initTheme()
-      
+
       // 初始化数据
       photoStore.initPhotos()
       blogStore.initBlog()
     })
 
     return {
-      themeStore
+      themeStore,
+      isLoading
     }
   }
 }
@@ -75,6 +117,20 @@ export default {
 .footer {
   position: relative;
   z-index: 1;
+}
+
+/* 路由加载动画样式 */
+#app :deep(.loader) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-page);
+  z-index: 9999;
 }
 
 /* 页面切换动画 */
