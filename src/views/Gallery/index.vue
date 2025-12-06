@@ -293,7 +293,6 @@ export default {
   opacity: 0.9;
   margin-bottom: var(--spacing-3);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
