@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+console.log("Loading component loaded");
 </script>
 
 <style scoped>

@@ -15,8 +15,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 import { useThemeStore } from '@/store/theme'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
@@ -24,6 +23,8 @@ import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
 import Loading from '@/components/common/loading.vue'
+import { storeToRefs } from 'pinia'
+
 
 export default {
   name: 'App',
@@ -37,41 +38,17 @@ export default {
     const themeStore = useThemeStore()
     const photoStore = usePhotoStore()
     const blogStore = useBlogStore()
-    const router = useRouter()
-    const isLoading = ref(false)
+    // const router = useRouter()
+    const {isLoading} = storeToRefs(blogStore);
+    
 
-    // 监听路由变化
-    let loadingTimeout = null
+    // router.beforeEach((to, from, next) => {
+      
+    // })
 
-    router.beforeEach((to, from, next) => {
-      // 显示加载动画
-      isLoading.value = true
-      console.log("show loading");
-      // 清除之前的定时器
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout)
-      }
-
-      // 设置一个最小显示时间，避免闪烁
-      loadingTimeout = setTimeout(() => {
-        isLoading.value = false;
-        console.log("hide loading");
-      }, 500)
-
-      next()
-    })
-
-    router.afterEach(() => {
-      路由完成后隐藏加载动画
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout)
-      }
-
-      // 延迟一点隐藏，让页面有时间渲染
-      setTimeout(() => {
-        isLoading.value = false
-      }, 500)
-    })
+    // router.afterEach(() => {
+      
+    // })
 
     onMounted(() => {
       // 初始化主题
