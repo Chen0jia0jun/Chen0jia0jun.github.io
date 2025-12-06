@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useThemeStore } from '@/store/theme'
 import { usePhotoStore } from '@/store/photos'
 import { useBlogStore } from '@/store/blog'
@@ -39,15 +39,22 @@ export default {
     const photoStore = usePhotoStore()
     const blogStore = useBlogStore()
     // const router = useRouter()
-    const {isLoading} = storeToRefs(blogStore);
-    
+    const { isLoading: blogLoading } = storeToRefs(blogStore);
+    const { isLoading: photoLoading } = storeToRefs(photoStore);
+
+    // 计算属性：当任一store正在加载时显示加载动画
+    const isLoading = computed(() => {
+      return blogLoading.value || photoLoading.value;
+    });
+
+
 
     // router.beforeEach((to, from, next) => {
-      
+
     // })
 
     // router.afterEach(() => {
-      
+
     // })
 
     onMounted(() => {

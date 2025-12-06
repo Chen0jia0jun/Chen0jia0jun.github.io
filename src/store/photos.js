@@ -340,8 +340,27 @@ export const usePhotoStore = defineStore('photos', {
     },
 
     // 初始化
-    initPhotos() {
-      this.loadFromLocalStorage();
+    async initPhotos() {
+      try {
+        this.isLoading = true;
+        // 设置最大加载时间为5秒，防止图片无法加载时卡住
+        const maxLoadingTime = setTimeout(() => {
+          this.isLoading = false;
+        }, 5000);
+
+        // 加载本地存储数据
+        this.loadFromLocalStorage();
+
+        // 模拟轻微延迟以显示加载动画（至少500ms）
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // 清除最大加载时间定时器
+        clearTimeout(maxLoadingTime);
+      } catch (error) {
+        console.error('初始化照片数据失败:', error);
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 })
