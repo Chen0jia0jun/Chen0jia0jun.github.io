@@ -121,8 +121,6 @@ export default {
     }
 
     onMounted(() => {
-      // 初始化photos数据
-      photoStore.initPhotos()
 
       // 如果没有照片，添加一些示例图片用于展示轮播效果
       if (photoStore.photosCount === 0) {

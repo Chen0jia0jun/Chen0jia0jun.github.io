@@ -4,14 +4,6 @@ import router from './router'
 import App from './App.vue'
 import './style.css'
 
-// CanvasNest 配置
-const config = {
-  color: '255,0,0',
-  count: 88,
-  opacity: 0.5,
-  zIndex: -1,
-}
-
 // 创建Vue应用实例
 const app = createApp(App)
 
@@ -23,14 +15,6 @@ app.use(router)
 
 // 挂载应用
 app.mount('#app')
-
-// 初始化CanvasNest（延迟一点确保DOM已渲染）
-setTimeout(() => {
-  const element = document.querySelector('#app') || document.body
-  if (window.CanvasNest) {
-    new window.CanvasNest(element, config)
-  }
-}, 100)
 
 // 处理 GitHub Pages 的路由重定向
 // 当用户直接访问某个路径时，404.html 会将路径作为 ?p= 参数传递过来
