@@ -113,6 +113,11 @@ import { marked } from 'marked'
 import hljs from 'highlight.js'
 import DOMPurify from 'dompurify'
 import { useBlogStore } from '@/store/blog'
+import { markedHighlight } from "marked-highlight"
+import renderer from '@/utils/markDownRender.js'
+import 'highlight.js/styles/androidstudio.css'
+import markedKatex from "marked-katex-extension";
+import 'katex/dist/katex.min.css';
 
 export default {
   name: 'BlogPost',
@@ -122,34 +127,41 @@ export default {
     const blogStore = useBlogStore()
     const base = import.meta.env.BASE_URL || '/'
     const isLoading = ref(true)
-    
-    // Configure marked
-    marked.setOptions({
-      highlight: function(code, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(code, { language: lang }).value
-          } catch (error) {
-            console.error('Code highlighting error:', error)
+
+    // 配置 marked
+    marked
+      .setOptions({
+        langPrefix: 'language-',
+        gfm: true
+      })
+      .use(markedKatex({ strict: false }))
+      .use(markedHighlight({
+        highlight: function(code, lang) {
+          if (lang && hljs.getLanguage(lang)) {
+            try {
+              return hljs.highlight(code, { language: lang }).value
+            } catch (error) {
+              console.error('Code highlighting error:', error)
+              return hljs.highlightAuto(code).value
+            }
           }
+          const autoHighlight = hljs.highlightAuto(code)
+          return autoHighlight.value || hljs.highlight(code, { language: 'shell' }).value
         }
-        return hljs.highlightAuto(code).value
-      },
-      langPrefix: 'hljs language-',
-      breaks: true,
-      gfm: true
-    })
-    
+      }))
+      // .use({ renderer })
+
     const post = computed(() => {
       return blogStore.getPostById(route.params.id)
     })
     
     const renderedContent = computed(() => {
       if (!post.value) return ''
-      
+
       try {
         const html = marked(post.value.content)
-        return DOMPurify.sanitize(html)
+        // 配置 DOMPurify 允许代码块的标签和属性
+        return DOMPurify.sanitize(html);
       } catch (error) {
         console.error('Markdown rendering error:', error)
         return post.value.content
@@ -176,7 +188,6 @@ export default {
     const sharePost = (platform) => {
       const url = window.location.href
       const title = post.value.title
-      const description = post.value.excerpt || '分享一篇文章'
       
       let shareUrl = ''
       
@@ -193,20 +204,8 @@ export default {
     }
     
     const copyLink = async () => {
-      try {
-        await navigator.clipboard.writeText(window.location.href)
-        alert('链接已复制到剪贴板')
-      } catch (error) {
-        console.error('复制失败:', error)
-        // 降级方案
-        const textArea = document.createElement('textarea')
-        textArea.value = window.location.href
-        document.body.appendChild(textArea)
-        textArea.select()
-        document.execCommand('copy')
-        document.body.removeChild(textArea)
-        alert('链接已复制到剪贴板')
-      }
+      await navigator.clipboard.writeText(window.location.href)
+      alert('链接已复制到剪贴板');
     }
     
     // 滚动到锚点
@@ -225,7 +224,6 @@ export default {
     // Load post data
     const loadPost = () => {
       isLoading.value = true
-      
       // 如果文章不存在，稍等片刻再检查（可能是数据还没加载）
       if (!post.value) {
         setTimeout(() => {
