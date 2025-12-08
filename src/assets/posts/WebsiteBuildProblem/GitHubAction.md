@@ -24,7 +24,7 @@ Actions (可重用组件)
 
 忽视了一些与网站部署无关文件的更改
 
-```
+```tex
 paths-ignore:
       - 'README.md'
       - 'LICENSE'

@@ -1,71 +1,45 @@
 import { marked } from "marked"
 import hljs from "highlight.js"
 import 'highlight.js/styles/androidstudio.css'
+import { markedHighlight } from "marked-highlight"
+import markedKatex from "marked-katex-extension";
+import 'highlight.js/styles/androidstudio.css'
+
+import 'katex/dist/katex.min.css';
+
+// 配置 marked
+    marked
+      .setOptions({
+        langPrefix: 'language-',
+        gfm: true
+      })
+      .use(markedKatex({ strict: false }))
+      
 
 // 创建自定义渲染器
-const markdownRender = new marked.Renderer()
-
-// 保存原有的 code 渲染函数
-const originalCode = markdownRender.code.bind(markdownRender)
+const renderer = new marked.Renderer()
 
 // 自定义 code 渲染函数，添加语言标签和复制按钮
-markdownRender.code = function(code, lang) {
-  // 获取语言名称（如果没有指定语言，尝试自动识别）
-  let language = lang || "text"
-  let hightLightHtml = code;
+renderer.code = function(code,lang,text,raw) {
+  let language = lang || "text";
+  console.log(code);
+  
   // 如果没有指定语言，通过 highlight.js 自动识别
   if (!lang) {
     const autoHighlight = hljs.highlightAuto(code)
     language = autoHighlight.language || "text"
+    code = autoHighlight.value;
   }
-  hightLightHtml = hljs.highlight(code, { language }).value;
-  console.log(originalCode(code, lang));
-  console.log(hightLightHtml);
-  // 获取语言的显示名称
-  const languageMap = {
-    "javascript": "JavaScript",
-    "typescript": "TypeScript",
-    "python": "Python",
-    "java": "Java",
-    "cpp": "C++",
-    "c": "C",
-    "csharp": "C#",
-    "php": "PHP",
-    "go": "Go",
-    "rust": "Rust",
-    "ruby": "Ruby",
-    "swift": "Swift",
-    "kotlin": "Kotlin",
-    "scala": "Scala",
-    "html": "HTML",
-    "xml": "XML",
-    "css": "CSS",
-    "scss": "SCSS",
-    "less": "LESS",
-    "bash": "Bash",
-    "shell": "Shell",
-    "sh": "Shell",
-    "json": "JSON",
-    "yaml": "YAML",
-    "yml": "YAML",
-    "markdown": "Markdown",
-    "sql": "SQL",
-    "dockerfile": "Docker",
-    "vue": "Vue",
-    "jsx": "JSX",
-    "tsx": "TSX",
-    "text": "Text",
-    "plain": "Text"
+  else {
+    code = hljs.highlight(code, { language: lang }).value;
   }
-
-  const displayLang = languageMap[language] || language.toUpperCase()
 
   // 生成代码块的 HTML，包含语言标签和复制按钮
-  return `
-    <div class="code-block-wrapper">
+  return (
+    `<div class="code-block-wrapper">
       <div class="code-block-header">
-        <span class="code-lang">${displayLang}</span>
-        <button class="copy-btn" onclick="console.log(this)" data-code="${encodeURIComponent(code)}">
+        <span class="code-lang">${language}</span>
+        <button class="copy-btn" onclick="console.log(this)" >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -73,9 +47,11 @@ markdownRender.code = function(code, lang) {
           复制
         </button>
       </div>
-      ${originalCode(code, lang)}
-    </div>
-  `
+      <pre><code class="hljs language-${language}">${code}</code></pre>
+    </div>`
+  )
 }
 
-export default markdownRender
+marked.use({ renderer });
+
+export default marked

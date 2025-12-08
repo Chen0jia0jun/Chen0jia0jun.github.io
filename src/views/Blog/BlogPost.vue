@@ -109,15 +109,10 @@
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { marked } from 'marked'
-import hljs from 'highlight.js'
 import DOMPurify from 'dompurify'
 import { useBlogStore } from '@/store/blog'
-import { markedHighlight } from "marked-highlight"
-import renderer from '@/utils/markDownRender.js'
-import 'highlight.js/styles/androidstudio.css'
-import markedKatex from "marked-katex-extension";
-import 'katex/dist/katex.min.css';
+import marked from '@/utils/markDownRender.js'
+
 
 export default {
   name: 'BlogPost',
@@ -128,29 +123,6 @@ export default {
     const base = import.meta.env.BASE_URL || '/'
     const isLoading = ref(true)
 
-    // 配置 marked
-    marked
-      .setOptions({
-        langPrefix: 'language-',
-        gfm: true
-      })
-      .use(markedKatex({ strict: false }))
-      .use(markedHighlight({
-        highlight: function(code, lang) {
-          if (lang && hljs.getLanguage(lang)) {
-            try {
-              return hljs.highlight(code, { language: lang }).value
-            } catch (error) {
-              console.error('Code highlighting error:', error)
-              return hljs.highlightAuto(code).value
-            }
-          }
-          const autoHighlight = hljs.highlightAuto(code)
-          return autoHighlight.value || hljs.highlight(code, { language: 'shell' }).value
-        }
-      }))
-      // .use({ renderer })
-
     const post = computed(() => {
       return blogStore.getPostById(route.params.id)
     })
@@ -160,7 +132,7 @@ export default {
 
       try {
         const html = marked(post.value.content)
-        // 配置 DOMPurify 允许代码块的标签和属性
+        // console.log("html",html);
         return DOMPurify.sanitize(html);
       } catch (error) {
         console.error('Markdown rendering error:', error)

@@ -6,7 +6,7 @@
 
 先从服务器克隆一个库并上传
 
-```
+```bash
 git clone ssh://example.com/~/www/project.git
 ```
 
