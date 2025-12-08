@@ -1,17 +1,3 @@
-/*
-数据格式：
-        id: '1',
-        title: '欢迎来到我的博客',
-        content: `# 欢迎来到我的博客
-`,
-        excerpt: '这是我的第一篇博客文章，介绍这个网站的功能和技术栈。',
-        date: '2025-11-19',
-        tags: ['介绍', '个人', '技术'],
-        published: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-*/
-
 import { defineStore } from 'pinia'
 
 // 动态导入所有 markdown 文件
@@ -20,7 +6,7 @@ const mdFiles = import.meta.glob('../assets/posts/**/*.md', { query: '?raw', imp
 export const useBlogStore = defineStore('blog', {
   state: () => ({
     posts: [],
-    isLoading: false
+    isLoading: true
   }),
   
   getters: {
@@ -223,15 +209,15 @@ export const useBlogStore = defineStore('blog', {
     async initBlog() {
       try {
         this.isLoading = true
-
         // 直接从 markdown 文件加载
         const postsFromFiles = this.loadMarkdownFiles()
-
         this.posts = [...postsFromFiles]
       } catch (err) {
         console.error('加载 markdown 文件失败:', err)
       } finally {
-        this.isLoading = false
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000)
       }
     }
   }
