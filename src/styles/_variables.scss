@@ -1,0 +1,48 @@
+// ============================================
+// 设计变量 (Design Tokens)
+// ============================================
+
+:root {
+  // 品牌主色
+  --primary-100: #DCEEFF;
+  --primary-500: #007AFF;
+  --primary-600: #0070E6;
+
+  // 浅色主题
+  --bg-page: #F8F9FA;
+  --bg-surface: #FFFFFF;
+  --text-primary: #1A1A1A;
+  --text-secondary: #4B5563;
+  --border-default: #E5E7EB;
+
+  // 语义色
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  // 间距令牌
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-24: 96px;
+
+  // 圆角
+  --radius-2: 8px;
+  --radius-3: 12px;
+
+  // 阴影
+  --shadow-light: 0 8px 24px rgba(108, 114, 124, 0.12);
+}
+
+// 深色主题
+[data-theme="dark"] {
+  --bg-page: #0A0A0A;
+  --bg-surface: #141414;
+  --text-primary: #E4E4E7;
+  --text-secondary: #A1A1AA;
+  --border-default: #27272A;
+}
