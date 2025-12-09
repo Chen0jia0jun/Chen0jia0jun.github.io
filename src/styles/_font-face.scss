@@ -1,0 +1,68 @@
+// ============================================
+// 字体定义 (@font-face)
+// ============================================
+
+/**
+ * Aa宋徽宗国笔手写金鼠字体
+ * 适合用于标题、装饰性文本
+ */
+
+// 定义字体家族
+@font-face {
+  font-family: 'Aa宋徽宗国笔手写';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap; // 优化字体加载性能
+  src:
+    url('../assets/fonts/AaSongHuiZongGuoBaoShouJinShu-2.woff2') format('woff2');
+}
+
+// 字体变量
+$font-handwriting: 'Aa宋徽宗国笔手写', cursive, '宋体', 'SimSun', serif;
+$font-chinese: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+$font-english: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+
+// 字体工具类
+.font-handwriting {
+  font-family: $font-handwriting;
+}
+
+.font-chinese {
+  font-family: $font-chinese;
+}
+
+.font-english {
+  font-family: $font-english;
+}
+
+.font-mono {
+  font-family: $font-mono;
+}
+
+// 标题使用手写字体
+h1.handwriting,
+h2.handwriting,
+h3.handwriting {
+  font-family: $font-handwriting;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+}
+
+// 装饰性文本
+.decorative-text {
+  font-family: $font-handwriting;
+  font-size: 1.2em;
+  letter-spacing: 0.1em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// 签名样式
+.signature {
+  font-family: $font-handwriting;
+  font-size: 1.5em;
+  font-style: italic;
+  color: var(--primary-500);
+  transform: rotate(-3deg);
+  display: inline-block;
+}
