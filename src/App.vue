@@ -32,7 +32,7 @@ export default {
     Navbar,
     Footer,
     GalleryCarousel,
-    Loading
+    Loading,
   },
   setup() {
     const themeStore = useThemeStore()

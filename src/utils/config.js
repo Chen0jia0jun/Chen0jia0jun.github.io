@@ -50,7 +50,7 @@ export const FRIEND_LINKS = [
       },
       {
         url: "https://aliplin.github.io/",
-        avatar: "./pyp.jpg",
+        avatar: "/pyp.jpg",
         name: "Aliplin's Blog",
         description: "5YaF5ZCR5Y2V57qv5aW96aqX6IW86IWG5paH6Z2Z5ZCD6aWt5Y+q5pWi6ZK75qGM5a2Q5bqV5LiL5ZCD5Ye66Zeo5Zad57yp5bCP6I2v5rC06ZK76Lev5Lq65bi95a2Q6YeM55yL5LiW55WM55qE57qv54ix5bCP5a2m55Sf."
       }
