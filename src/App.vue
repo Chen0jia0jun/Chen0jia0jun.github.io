@@ -11,9 +11,6 @@
 
     <!-- 路由加载动画 -->
     <Loading v-if="isLoading" />
-
-    <!-- 音乐播放器 -->
-    <MusicPlayer />
   </div>
 </template>
 
@@ -26,7 +23,6 @@ import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
 import Loading from '@/components/common/Loading.vue'
-import MusicPlayer from '@/components/common/MusicPlayer.vue'
 import { storeToRefs } from 'pinia'
 
 
@@ -37,7 +33,6 @@ export default {
     Footer,
     GalleryCarousel,
     Loading,
-    MusicPlayer
   },
   setup() {
     const themeStore = useThemeStore()
