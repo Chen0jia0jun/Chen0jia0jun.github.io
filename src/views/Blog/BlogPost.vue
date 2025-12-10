@@ -254,8 +254,7 @@ export default {
   background-color: var(--bg-surface);
   border-radius: var(--radius-3);
   width: 75%;
-  margin: 0 auto;
-  margin-top: var(--spacing-12);
+  margin: var(--spacing-12) auto;
 }
 
 /* Navigation */

@@ -15,11 +15,7 @@
         <section class="about-section">
           <div class="section-header">
             <h2 class="section-title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              关于我
+              Introduce
             </h2>
           </div>
           <ul class="about-list">
@@ -38,12 +34,6 @@
         <section class="about-section">
           <div class="section-header">
             <h2 class="section-title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
               spiritFriends
             </h2>
           </div>
@@ -64,11 +54,6 @@
         <section class="about-section">
           <div class="section-header">
             <h2 class="section-title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                <path d="M2 17l10 5 10-5"></path>
-                <path d="M2 12l10 5 10-5"></path>
-              </svg>
               LifeLists
             </h2>
           </div>
@@ -86,10 +71,6 @@
         <section class="about-section">
           <div class="section-header">
             <h2 class="section-title">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
               YearGoal
             </h2>
           </div>
@@ -178,17 +159,20 @@ const yearGoal = [
 ];
 
 const introduce = [
+    "土木老哥",
     "业余摄影",
     "心理学爱好者",
-    "土木老哥",
 ];
 </script>
 
 <style scoped>
 .about-page {
   min-height: 100vh;
-  padding: var(--spacing-12) 0;
+  padding: var(--spacing-8) 0;
   background: linear-gradient(135deg, var(--bg-page) 0%, var(--bg-surface) 100%);
+  width: 75%;
+  margin: var(--spacing-12) auto;
+  border-radius: var(--radius-3);
 }
 
 .container {
@@ -239,11 +223,11 @@ const introduce = [
 
 /* Section */
 .about-section {
-  background-color: var(--bg-surface);
+  /* background-color: var(--bg-surface);
   border-radius: var(--radius-4);
   padding: var(--spacing-8);
   box-shadow: var(--shadow-light);
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-default); */
 }
 
 .section-header {
