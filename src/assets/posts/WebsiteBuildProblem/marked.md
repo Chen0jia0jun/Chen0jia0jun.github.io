@@ -1,10 +1,14 @@
 # Marked配置
 
+
+
 ## 基本使用
 
-```v-html``会自动渲染html结构的字符串
 
-```npm install marked ```
+
+`v-html`会自动渲染html结构的字符串
+
+`npm install marked `
 
 ```Vue
 <article class="post-content content-container">
@@ -24,11 +28,15 @@ const renderedContent = computed(() => {
 
 ## 扩展插件
 
+
+
 ### katex
+
+
 
 支持解析katex数学公式
 
-```npm install marked-katex-extension ```
+`npm install marked-katex-extension `
 
 ```JavaScript
 import { marked } from 'marked'
@@ -40,7 +48,7 @@ marked.use(markedKatex({strict: false}))
 
 如果不引入特定的样式，就会出现一行公式最后解析出两行的情况。
 
-```strict: false```非严格模式下，公式块中输入中文不会报错，否则控制台会输出警告。
+`strict: false`非严格模式下，公式块中输入中文不会报错，否则控制台会输出警告。
 
 ### hightlight
 
@@ -48,7 +56,7 @@ marked.use(markedKatex({strict: false}))
 
 代码块高亮风格可以在这个网站中查看，选择好了对应的样式之后，```import```导入即可 [Demo - highlight.js](https://highlightjs.org/demo)
 
-```npm install marked-highlight ```
+`npm install marked-highlight `
 
 ```JavaScript
 import { markedHighlight } from "marked-highlight"
@@ -81,7 +89,7 @@ marked.use(markedHighlight({
 
 这其实并不属于marked的插件，但也可以一起用。
 
-```npm install dompurify ```
+`npm install dompurify `
 
 ```JavaScript
 import DOMPurify from 'dompurify'

@@ -4,7 +4,7 @@ import Gallery from '@/views/Gallery/index.vue'
 import GalleryPhotos from '@/views/Gallery/GalleryPhotos.vue'
 import Blog from '@/views/Blog/index.vue'
 import BlogPost from '@/views/Blog/BlogPost.vue'
-import Tests from '@/views/Tests.vue'
+import About from '@/views/About.vue'
 import NotFound from '@/views/NotFound.vue'
 
 const routes = [
@@ -49,11 +49,11 @@ const routes = [
     }
   },
   {
-    path: '/tests',
-    name: 'Tests',
-    component: Tests,
-    meta: {
-      title: '实验室'
+    path: '/about',
+    name: 'About',
+    component:About,
+    meta:{
+      title: '关于'
     }
   },
   {

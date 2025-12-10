@@ -38,7 +38,7 @@
 
       <!-- Article Content -->
       <article class="post-content content-container">
-        <div class="markdown-content" v-html="renderedContent"></div>
+        <div class="markdown-content" v-html="renderedContent" @click="handleCodeCopy"></div>
       </article>
 
       <!-- Article Footer -->
@@ -179,6 +179,22 @@ export default {
       await navigator.clipboard.writeText(window.location.href)
       alert('链接已复制到剪贴板');
     }
+
+    // 处理代码块复制按钮点击
+    const handleCodeCopy = (event) => {
+      const button = event.target.closest('.copy-btn')
+      if (button) {
+        const code = decodeURIComponent(button.dataset.code)
+        navigator.clipboard.writeText(code).then(() => {
+          // 可选：添加视觉反馈
+          const originalText = button.innerHTML
+          button.innerHTML = '已复制'
+          setTimeout(() => {
+            button.innerHTML = originalText
+          }, 2000)
+        })
+      }
+    }
     
     // 滚动到锚点
     const scrollToHash = () => {
@@ -224,6 +240,7 @@ export default {
       getReadingTime,
       sharePost,
       copyLink,
+      handleCodeCopy,
     }
   }
 }
@@ -438,6 +455,56 @@ export default {
 .markdown-content pre code {
   background: none;
   padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+/* 代码块包装器样式 */
+.markdown-content .code-block-wrapper {
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-3);
+  margin: var(--spacing-8) 0;
+  overflow: hidden;
+}
+
+.markdown-content .code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+  font-size: 14px;
+}
+
+.markdown-content .code-lang {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.markdown-content .copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-page);
+  color: var(--text-secondary);
+  border-radius: var(--radius-2);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.markdown-content .copy-btn:hover {
+  background-color: var(--primary-100);
+  color: var(--primary-600);
+  border-color: var(--primary-200);
+}
+
+.markdown-content .code-block-wrapper pre {
+  margin: 0;
   border: none;
   border-radius: 0;
 }

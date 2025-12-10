@@ -111,7 +111,7 @@ export default {
       { name: '照片', path: '/gallery' },
       { name: '博客', path: '/blog' },
       // { name: '实验室', path: '/tests' }
-      { name: '关于我', path: '/about' }
+      { name: '关于', path: '/about' }
     ]
 
     const toggleTheme = () => {
