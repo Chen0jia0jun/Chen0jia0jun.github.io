@@ -1,7 +1,8 @@
 <template>
   <span class="typewriter">
-    {{ displayText }}
-    <span class="cursor" :class="{ 'cursor--blink': cursorBlink }"></span>
+    <span> {{ displayText }} </span>
+    
+    <!-- <span class="cursor" :class="{ 'cursor--blink': cursorBlink }"></span> -->
   </span>
 </template>
 
@@ -103,6 +104,7 @@ onUnmounted(() => {
 .typewriter {
   position: relative;
   display: inline-block;
+  line-height: 1.5;  /* 确保统一的行高 */
 }
 
 .cursor {

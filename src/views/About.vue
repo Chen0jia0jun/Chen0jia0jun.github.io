@@ -12,7 +12,7 @@
       <!-- Main Content -->
       <div class="about-content">
         <!-- Personal Introduction -->
-        <section class="about-section">
+        <section>
           <div class="section-header">
             <h2 class="section-title">
               Introduce
@@ -31,7 +31,7 @@
         </section>
 
         <!-- Spiritual Mentors -->
-        <section class="about-section">
+        <section>
           <div class="section-header">
             <h2 class="section-title">
               spiritFriends
@@ -51,7 +51,7 @@
         </section>
 
         <!-- Life Bucket List -->
-        <section class="about-section">
+        <section>
           <div class="section-header">
             <h2 class="section-title">
               LifeLists
@@ -68,7 +68,7 @@
         </section>
 
         <!-- Annual Goals -->
-        <section class="about-section">
+        <section>
           <div class="section-header">
             <h2 class="section-title">
               YearGoal
@@ -219,15 +219,6 @@ const introduce = [
   display: flex;
   flex-direction: column;
   gap: var(--spacing-12);
-}
-
-/* Section */
-.about-section {
-  /* background-color: var(--bg-surface);
-  border-radius: var(--radius-4);
-  padding: var(--spacing-8);
-  box-shadow: var(--shadow-light);
-  border: 1px solid var(--border-default); */
 }
 
 .section-header {
@@ -441,10 +432,6 @@ const introduce = [
 
   .page-subtitle {
     font-size: 16px;
-  }
-
-  .about-section {
-    padding: var(--spacing-6);
   }
 
   .section-title {
