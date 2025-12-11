@@ -125,9 +125,10 @@ export default {
     }
 
     const scrollToContent = () => {
-      const statsSection = document.querySelector('.stats')
+      const statsSection = document.querySelector('.recent-photos')
+      console.log(statsSection);
       if (statsSection) {
-        statsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        statsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
