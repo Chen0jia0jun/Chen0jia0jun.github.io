@@ -50,7 +50,7 @@ marked.use(markedKatex({strict: false}))
 
 `strict: false`非严格模式下，公式块中输入中文不会报错，否则控制台会输出警告。
 
-### hightlight
+### highlight
 
 高亮代码块
 
