@@ -1,3 +1,8 @@
+---
+title: "GitHubAction"
+createdAt: "2025-11-21T10:30:00"
+updatedAt: "2025-12-11T14:20:00"
+---
 # GitHub Action 使用记录
 
 GitHub Actions是GitHub提供的**持续集成/持续部署(CI/CD)**平台，基于**事件驱动**的自动化工作流系统。它让开发者可以自动化构建、测试和部署流程，实现"代码推送即部署"的理想状态。

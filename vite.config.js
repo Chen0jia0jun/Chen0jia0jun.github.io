@@ -36,6 +36,7 @@ export default defineConfig({
   build: {
     outDir: 'dist', // 构建输出目录（默认即为 dist）
   },
+  assetsInclude: ['**/*.md'], // 支持 markdown 文件作为静态资源
 })
 
 /**

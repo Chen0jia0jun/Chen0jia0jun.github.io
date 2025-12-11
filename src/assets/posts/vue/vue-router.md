@@ -1,4 +1,10 @@
-# Vue-router的强大功能
+---
+title: "vue-router"
+createdAt: "2025-12-04T10:30:00"
+updatedAt: "2025-12-11T14:20:00"
+---
+
+# vue-router的强大功能
 
 *从能实现的功能与效果方向去学习vue-router，内核与底层暂且忽略*
 

@@ -1,3 +1,9 @@
+---
+title: "vue-pinia"
+createdAt: "2025-12-08T10:30:00"
+updatedAt: "2025-12-11T14:20:00"
+---
+
 # Pinia学习实践
 
 [开始 | Pinia](https://pinia.vuejs.org/zh/getting-started.html)
