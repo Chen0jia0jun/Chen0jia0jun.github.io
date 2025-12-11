@@ -17,7 +17,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   background-color: var(--bg-page);
-  background-image: url('@/assets/photos/background.jpg');
+  background-image: url('@/assets/photos/background.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -31,6 +31,7 @@ body {
 // 深色主题下对背景图应用暗色滤镜
 [data-theme="dark"] body {
   position: relative;
+  background-image: url('@/assets/photos/background-dark.png');
 }
 
 [data-theme="dark"] body::before {

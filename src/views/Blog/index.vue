@@ -52,8 +52,8 @@
         </button>
       </div>
 
-      <!-- Posts Grid -->
-      <div class="posts-grid" v-if="filteredPosts.length > 0">
+      <!-- Posts List -->
+      <div class="posts-list" v-if="filteredPosts.length > 0">
         <BlogCard
           v-for="post in paginatedPosts"
           :key="post.id"
@@ -478,11 +478,8 @@ export default {
   border-color: var(--primary-500);
 }
 
-/* Posts Grid */
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: var(--spacing-6);
+/* Posts List */
+.posts-list {
   margin-bottom: var(--spacing-12);
 }
 
@@ -587,11 +584,6 @@ export default {
   
   .controls-right {
     justify-content: center;
-  }
-  
-  .posts-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-4);
   }
 
   .form-actions {
