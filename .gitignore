@@ -30,3 +30,5 @@ coverage
 
 # Generated posts index (ignored because CI will generate it)
 /public/posts_index.json
+
+.venv

@@ -8,7 +8,21 @@
           alt="个人头像"
           class="avatar"
         />
-        <div class="avatar-glow"></div>
+      </div>
+      <!-- 资讯汇总链接 -->
+       <div class="info-summary-link">
+        <a
+          href="https://tophub.today"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="点击打开资讯汇总"
+        >
+          <img
+           src="@/assets/photos/go.svg"
+           alt="资讯汇总"
+           class="go-image-link"
+           />
+        </a>
       </div>
     </div>
 
@@ -110,6 +124,7 @@ export default {
 .avatar-section {
   text-align: center;
   margin-bottom: var(--spacing-6);
+  display: flex;
 }
 
 .avatar-container {
@@ -129,30 +144,20 @@ export default {
   transition: transform 0.3s ease;
 }
 
-.avatar-glow {
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  border-radius: 50%;
-  background: conic-gradient(
-    var(--primary-500),
-    var(--primary-400),
-    var(--primary-500)
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  animation: rotate 3s linear infinite;
-  z-index: 0;
-}
-
 .avatar-container:hover .avatar {
   transform: scale(1.05);
 }
 
-.avatar-container:hover .avatar-glow {
-  opacity: 0.6;
+.info-summary-link{
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
+
+.go-image-link {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
 }
 
 @keyframes rotate {

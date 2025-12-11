@@ -110,7 +110,6 @@ export default {
       { name: '首页', path: '/' },
       { name: '照片', path: '/gallery' },
       { name: '博客', path: '/blog' },
-      // { name: '实验室', path: '/tests' }
       { name: '关于', path: '/about' }
     ]
 
