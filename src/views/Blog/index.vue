@@ -166,10 +166,10 @@ export default {
       // Sort
       switch (sortBy.value) {
         case 'date-desc':
-          posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+          posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           break
         case 'date-asc':
-          posts.sort((a, b) => new Date(a.date) - new Date(b.date))
+          posts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
           break
         case 'title-asc':
           posts.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN'))

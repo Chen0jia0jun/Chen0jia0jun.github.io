@@ -43,7 +43,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <svg class="social-icon" v-html="link.icon"></svg>
+        <div class="social-icon" v-html="link.icon"></div>
       </a>
     </div>
 
@@ -75,7 +75,7 @@ export default {
   props: {
     name: {
       type: String,
-      default: 'Cisphus'
+      default: 'Cisyphus'
     },
     bio: {
       type: String,

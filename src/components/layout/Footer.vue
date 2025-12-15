@@ -80,7 +80,7 @@
       <div class="footer-bottom">
         <div class="footer-bottom-content">
           <p class="copyright">
-            © {{ currentYear }} Cisphus World.
+            © {{ currentYear }} Cisyphus World.
           </p>
           <div class="footer-stats">
             <span class="stat-item">{{ photoStore.photosCount }} 张照片</span>

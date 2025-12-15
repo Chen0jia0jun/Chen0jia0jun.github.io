@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Cisphus</h1>
+        <h1 class="hero-title">Cisyphus</h1>
         <TypewriterText
           :texts="TEXT"
           :type-speed="100"

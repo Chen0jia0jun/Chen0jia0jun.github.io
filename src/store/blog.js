@@ -27,8 +27,8 @@ export const useBlogStore = defineStore('blog', {
 
     postsByDate: (state) => {
       return [...state.publishedPosts].sort((a, b) => {
-        const aTime = a.updatedAt || a.createdAt || a.date || ''
-        const bTime = b.updatedAt || b.createdAt || b.date || ''
+        const aTime = a.createdAt || a.updatedAt || a.date || ''
+        const bTime = b.createdAt || b.updatedAt || b.date || ''
         return new Date(bTime) - new Date(aTime)
       })
     },

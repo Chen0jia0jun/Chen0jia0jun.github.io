@@ -20,7 +20,7 @@
             </defs>
           </svg>
         </div>
-        <span class="logo-text">Cisphus</span>
+        <span class="logo-text">Cisyphus</span>
       </router-link>
 
       <!-- 桌面导航 -->
