@@ -2,6 +2,7 @@
 title: "封装Axios"
 createdAt: "2025-12-04T10:30:00"
 updatedAt: "2025-12-11T14:20:00"
+tags: [Front]
 ---
 
 # 合理拆分并封装Axios

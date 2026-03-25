@@ -2,6 +2,7 @@
 title: "SWUST OJ"
 createdAt: "2024-04-18T10:30:00"
 updatedAt: "2025-12-11T14:20:00"
+tags: [Algorithm]
 ---
 
 # 作业二
