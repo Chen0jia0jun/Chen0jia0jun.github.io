@@ -4,7 +4,7 @@
       <!-- Page Header -->
       <header class="page-header">
         <div class="avatar-wrapper">
-          <img src="/avatar.jpg" alt="头像" class="avatar-image" />
+          <img src="/avatar.webp" alt="头像" class="avatar-image" />
         </div>
         <p class="page-subtitle">Hello,world</p>
       </header>
@@ -98,11 +98,11 @@
 
 <script setup>
 // 导入图片资源
-import stsImage from '@/assets/photos/sts.png'
-import jmImage from '@/assets/photos/jm.png'
-import adlImage from '@/assets/photos/adl.png'
-import kdlImage from '@/assets/photos/kdl.png'
-import kwdsImage from '@/assets/photos/kwds.png'
+import stsImage from '@/assets/photos/sts.webp'
+import jmImage from '@/assets/photos/jm.webp'
+import adlImage from '@/assets/photos/adl.webp'
+import kdlImage from '@/assets/photos/kdl.webp'
+import kwdsImage from '@/assets/photos/kwds.webp'
 
 const spiritFriend = [
     {

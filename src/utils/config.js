@@ -50,7 +50,7 @@ export const FRIEND_LINKS = [
       },
       {
         url: "https://aliplin.github.io/",
-        avatar: "/pyp.jpg",
+        avatar: "/pyp.webp",
         name: "Aliplin's Blog",
         description: "5YaF5ZCR5Y2V57qv5aW96aqX6IW86IWG5paH6Z2Z5ZCD6aWt5Y+q5pWi6ZK75qGM5a2Q5bqV5LiL5ZCD5Ye66Zeo5Zad57yp5bCP6I2v5rC06ZK76Lev5Lq65bi95a2Q6YeM55yL5LiW55WM55qE57qv54ix5bCP5a2m55Sf."
       }
@@ -74,7 +74,7 @@ export const SITE_START_DATE = new Date('2025-11-19 21:05:00');
 export const PROFILE = {
   name: 'Cisyphus',
   bio: '我想成为你生命中的光，即使只是微弱的光。',
-  avatarUrl: '/avatar.jpg',
+  avatarUrl: '/avatar.webp',
   socialLinks:[
       {
         platform: 'GitHub',

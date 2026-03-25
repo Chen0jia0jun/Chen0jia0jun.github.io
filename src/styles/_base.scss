@@ -19,7 +19,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   background-color: var(--bg-page);
-  background-image: url('@/assets/photos/background.png');
+  background-image: url('@/assets/photos/background.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -34,7 +34,7 @@ body {
 
 [data-theme="dark"] body {
   position: relative;
-  background-image: url('@/assets/photos/background-dark.png');
+  background-image: url('@/assets/photos/background-dark.webp');
 }
 
 [data-theme="dark"] body::before {

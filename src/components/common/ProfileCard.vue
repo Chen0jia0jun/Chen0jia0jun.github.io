@@ -83,7 +83,7 @@ export default {
     },
     avatarUrl: {
       type: String,
-      default: '/avatar.jpg'
+      default: '/avatar.webp'
     },
     stats: {
       type: Object,

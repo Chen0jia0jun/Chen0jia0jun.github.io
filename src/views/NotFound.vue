@@ -39,7 +39,7 @@ const goHome = () => {
   height: 100vh;
   z-index: 9999;
   overflow: hidden;
-  background: url('@/assets/photos/404.jpg') center/cover no-repeat fixed;
+  background: url('@/assets/photos/404.webp') center/cover no-repeat fixed;
 }
 
 .noise {

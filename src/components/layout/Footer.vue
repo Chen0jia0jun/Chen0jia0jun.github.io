@@ -15,7 +15,7 @@
               class="image-link"
               :title="link.description"
             >
-              <img src="/transport.png" :alt="link.name" class="link-image" />
+              <img src="/transport.webp" :alt="link.name" class="link-image" />
               <span class="link-label">{{ link.name }}</span>
             </a>
           </div>
@@ -29,7 +29,7 @@
               class="image-link"
               :title="wormholeLink.description"
             >
-              <img src="/blackhole.png" :alt="wormholeLink.name" class="link-image" />
+              <img src="/blackhole.webp" :alt="wormholeLink.name" class="link-image" />
               <span class="link-label">{{ wormholeLink.name }}</span>
             </a>
           </div>

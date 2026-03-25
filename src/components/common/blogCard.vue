@@ -6,7 +6,7 @@
     <!-- 封面图片 -->
     <div class="post-cover">
       <img
-        :src="post.coverImage || '/default-cover.png'"
+        :src="coverImage"
         :alt="post.title"
         class="cover-image"
       />
@@ -50,6 +50,30 @@ const props = defineProps({
 })
 
 const router = useRouter()
+
+const coverImages = [
+  '/cover.webp',
+  '/cover2.webp',
+  '/cover3.webp',
+  '/cover4.webp',
+  '/cover5.webp'
+]
+
+const pickCoverIndex = (seed) => {
+  const text = String(seed ?? '')
+  let hash = 0
+  for (let i = 0; i < text.length; i += 1) {
+    hash = (hash * 31 + text.charCodeAt(i)) | 0
+  }
+  const safe = Math.abs(hash)
+  return safe % coverImages.length
+}
+
+const coverImage = computed(() => {
+  if (props.post.coverImage) return props.post.coverImage
+  const seed = props.post.id ?? props.post.title ?? props.post.createdAt ?? Math.random()
+  return coverImages[pickCoverIndex(seed)]
+})
 
 const formattedDate = computed(() => {
   return formatDate(props.post.createdAt || props.post.date)
