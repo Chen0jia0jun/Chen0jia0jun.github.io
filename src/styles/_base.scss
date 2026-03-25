@@ -1,5 +1,5 @@
 // ============================================
-// 基础样式重置
+// Base reset and document defaults
 // ============================================
 
 * {
@@ -10,10 +10,12 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Aa宋徽宗国笔手写', cursive, '宋体', 'SimSun', serif;
+  font-family: 'STKaiti', 'KaiTi', 'Songti SC', 'SimSun', serif;
   font-size: 16px;
   line-height: 1.7;
   background-color: var(--bg-page);
@@ -26,9 +28,10 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 320px;
+  overflow-x: hidden;
 }
 
-// 深色主题下对背景图应用暗色滤镜
 [data-theme="dark"] body {
   position: relative;
   background-image: url('@/assets/photos/background-dark.png');
@@ -37,10 +40,7 @@ body {
 [data-theme="dark"] body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(10, 10, 10, 0.6);
   pointer-events: none;
   z-index: -1;
@@ -53,5 +53,47 @@ a {
 
   &:hover {
     color: var(--primary-600);
+  }
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+#app,
+main,
+section,
+article,
+aside,
+nav,
+div {
+  min-width: 0;
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  html {
+    min-height: -webkit-fill-available;
+  }
+
+  body {
+    min-height: -webkit-fill-available;
+    background-attachment: scroll;
   }
 }

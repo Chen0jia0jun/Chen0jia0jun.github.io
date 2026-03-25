@@ -170,7 +170,7 @@ const introduce = [
   min-height: 100vh;
   padding: var(--spacing-8) 0;
   background: linear-gradient(135deg, var(--bg-page) 0%, var(--bg-surface) 100%);
-  width: 75%;
+  width: min(100% - 32px, 1120px);
   margin: var(--spacing-12) auto;
   border-radius: var(--radius-3);
 }
@@ -425,6 +425,11 @@ const introduce = [
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .about-page {
+    width: min(100% - 16px, 1120px);
+    margin: var(--spacing-6) auto;
+  }
+
   .avatar-wrapper {
     width: 120px;
     height: 120px;
