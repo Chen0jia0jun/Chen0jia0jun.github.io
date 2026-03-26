@@ -1,12 +1,46 @@
-<template>
+﻿<template>
   <div class="blog-post" v-if="post">
     <div class="container">
       <div class="post-shell">
         <aside class="post-sidebar" v-if="tocHeadings.length > 0">
-          <div class="toc-card">
-            <p class="toc-eyebrow">On This Page</p>
-            <h2 class="toc-title">目录</h2>
-            <nav class="toc-nav" aria-label="文章目录">
+          <div class="toc-card" :class="{ collapsed: isTocCollapsed }">
+            <div class="toc-header">
+              <div class="toc-heading">
+                <p class="toc-eyebrow">On This Page</p>
+                <h2 class="toc-title">{{ tocTitle }}</h2>
+                <p v-if="isTocCollapsed && activeHeadingText" class="toc-collapsed-text">
+                  {{ activeHeadingText }}
+                </p>
+              </div>
+              <button
+                type="button"
+                class="toc-toggle"
+                :aria-expanded="String(!isTocCollapsed)"
+                aria-controls="post-toc-nav"
+                @click="toggleToc"
+              >
+                <span>{{ isTocCollapsed ? tocExpandLabel : tocCollapseLabel }}</span>
+                <svg
+                  class="toc-toggle-icon"
+                  :class="{ collapsed: isTocCollapsed }"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+            <nav
+              ref="tocNavRef"
+              id="post-toc-nav"
+              v-show="!isTocCollapsed"
+              class="toc-nav"
+              :aria-label="tocAriaLabel"
+            >
               <button
                 v-for="heading in tocHeadings"
                 :key="heading.id"
@@ -150,7 +184,13 @@ export default {
     const base = import.meta.env.BASE_URL || '/'
     const isLoading = ref(true)
     const contentRef = ref(null)
+    const tocNavRef = ref(null)
     const activeHeadingId = ref('')
+    const isTocCollapsed = ref(false)
+    const tocTitle = '\u76ee\u5f55'
+    const tocExpandLabel = '\u5c55\u5f00'
+    const tocCollapseLabel = '\u6536\u8d77'
+    const tocAriaLabel = '\u6587\u7ae0\u76ee\u5f55'
     let headingObserver = null
 
     const post = computed(() => {
@@ -222,6 +262,9 @@ export default {
 
     const renderedContent = computed(() => parsedPost.value.html)
     const tocHeadings = computed(() => parsedPost.value.headings)
+    const activeHeadingText = computed(() => {
+      return tocHeadings.value.find((heading) => heading.id === activeHeadingId.value)?.text || ''
+    })
 
     const formatDate = (dateString) => {
       const date = new Date(dateString)
@@ -237,9 +280,21 @@ export default {
       const wordsPerMinute = 200
       const textLength = content.replace(/[#*`]/g, '').length
       const readingTime = Math.ceil(textLength / wordsPerMinute)
-      return `${readingTime} 分钟阅读`
+      return `${readingTime} \u5206\u949f\u9605\u8bfb`
     }
-
+    const getCurrentHashId = () => {
+      const hash = route.hash.replace(/^#/, '')
+      if (!hash) return ''
+      try {
+        return decodeURIComponent(hash)
+      } catch (error) {
+        return hash
+      }
+    }
+    const getScrollTopForHeading = (element) => {
+      const topOffset = 96
+      return Math.max(window.scrollY + element.getBoundingClientRect().top - topOffset, 0)
+    }
     const sharePost = (platform) => {
       const url = window.location.href
       const title = post.value.title
@@ -282,19 +337,39 @@ export default {
     const scrollToHeading = (id, behavior = 'smooth') => {
       const element = document.getElementById(id)
       if (!element) return
-
       activeHeadingId.value = id
-      element.scrollIntoView({ behavior, block: 'start' })
-      element.focus({ preventScroll: true })
+      window.scrollTo({
+        top: getScrollTopForHeading(element),
+        behavior
+      })
+      window.requestAnimationFrame(() => {
+        element.focus({ preventScroll: true })
+      })
+    }
+
+    const scrollActiveTocLinkIntoView = () => {
+      if (!tocNavRef.value || isTocCollapsed.value) return
+
+      const activeLink = tocNavRef.value.querySelector('.toc-link.active')
+      if (!activeLink) return
+
+      activeLink.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+        behavior: 'smooth'
+      })
     }
 
     const navigateToHeading = async (id) => {
-      await router.replace({ path: route.path, hash: `#${id}` })
+      await router.replace({ path: route.path, hash: `#${encodeURIComponent(id)}` })
       scrollToHeading(id)
+      if (typeof window !== 'undefined' && window.innerWidth <= 1024) {
+        isTocCollapsed.value = true
+      }
     }
 
     const scrollToHash = () => {
-      const hash = route.hash.replace(/^#/, '')
+      const hash = getCurrentHashId()
       if (!hash) {
         activeHeadingId.value = tocHeadings.value[0]?.id || ''
         return
@@ -323,7 +398,7 @@ export default {
       const headings = Array.from(contentRef.value.querySelectorAll(TOC_LEVELS.join(',')))
       if (headings.length === 0) return
 
-      activeHeadingId.value = route.hash.replace(/^#/, '') || headings[0].id
+      activeHeadingId.value = getCurrentHashId() || headings[0].id
 
       headingObserver = new IntersectionObserver((entries) => {
         const visibleEntries = entries
@@ -376,20 +451,37 @@ export default {
       scrollToHash()
     })
 
+    watch(activeHeadingId, async () => {
+      await nextTick()
+      scrollActiveTocLinkIntoView()
+    })
+
+    const toggleToc = () => {
+      isTocCollapsed.value = !isTocCollapsed.value
+    }
+
     return {
       post,
       base,
       isLoading,
       contentRef,
+      tocNavRef,
       renderedContent,
       tocHeadings,
       activeHeadingId,
+      activeHeadingText,
+      isTocCollapsed,
+      tocTitle,
+      tocExpandLabel,
+      tocCollapseLabel,
+      tocAriaLabel,
       formatDate,
       getReadingTime,
       sharePost,
       copyLink,
       handleCodeCopy,
-      navigateToHeading
+      navigateToHeading,
+      toggleToc
     }
   }
 }
@@ -431,6 +523,25 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: height 0.25s ease, padding 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.toc-card.collapsed {
+  height: auto;
+  min-height: 0;
+  padding-bottom: var(--spacing-4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.toc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+.toc-heading {
+  min-width: 0;
 }
 
 .toc-eyebrow {
@@ -443,7 +554,43 @@ export default {
 
 .toc-title {
   font-size: 22px;
-  margin-bottom: var(--spacing-4);
+  margin-bottom: 0;
+}
+
+.toc-collapsed-text {
+  margin-top: var(--spacing-3);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.toc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  background-color: var(--bg-page);
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+}
+.toc-toggle:hover {
+  color: var(--primary-600);
+  border-color: var(--primary-200, var(--border-default));
+  background-color: var(--primary-100);
+}
+.toc-toggle-icon {
+  transition: transform 0.2s ease;
+}
+.toc-toggle-icon.collapsed {
+  transform: rotate(-90deg);
 }
 
 .toc-nav {
@@ -456,6 +603,7 @@ export default {
   padding-right: 2px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
 
 .toc-nav::-webkit-scrollbar {
@@ -881,7 +1029,8 @@ export default {
 
   .toc-card {
     width: 100%;
-    height: 260px;
+    height: auto;
+    max-height: min(60vh, 420px);
     padding: var(--spacing-4);
   }
 }
